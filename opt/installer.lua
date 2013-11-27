@@ -45,7 +45,7 @@ safeGHGet("etc/computers", "Timendainum/Wintermute/master/etc/computers.txt")
 configComputers = config.readConfig("/etc/computers")
 
 print("Downloading files config...")
-safeGHGet("etc/files", "Timendainum/Wintermute/master/etc/computers.txt")
+safeGHGet("etc/files", "Timendainum/Wintermute/master/etc/files.txt")
 
 -- read config file
 configFiles = config.readConfig("/etc/files")
