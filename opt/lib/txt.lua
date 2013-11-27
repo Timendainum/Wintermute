@@ -4,32 +4,28 @@
 --Text tools to help making writing to monitors
 --easier.
 ---------------------------------------------------
--- Update log -------------------------------------
--- 11/17/13 - added newLine function
----------------------------------------------------
-
 
 --centerWrite
 function centerWrite(o, t)
-  --Get Term size
-  local x,y = o.getSize()
-  local halfX = math.ceil(x/2)
-  print("x: " .. x .. " y: " .. y .. " halfX: " .. halfX)
+	--Get Term size
+	local x,y = o.getSize()
+	local halfX = math.ceil(x/2)
+	print("x: " .. x .. " y: " .. y .. " halfX: " .. halfX)
 
-  --get cursor
-  local cX, cY = o.getCursorPos()
+	--get cursor
+	local cX, cY = o.getCursorPos()
 
-  --calc center
-  local halfLength = math.ceil(string.len(t)/2)
-  print("halfLenth: " .. halfLength)
-    
-  --Set pos and write
-  local newX = halfX - halfLength
-  print("newX: " .. newX)
+	--calc center
+	local halfLength = math.ceil(string.len(t)/2)
+	print("halfLenth: " .. halfLength)
+		
+	--Set pos and write
+	local newX = halfX - halfLength
+	print("newX: " .. newX)
 
-  print("x: " .. newX .. " y: " .. y ..  " Text: " .. t)
-  o.setCursorPos(newX, cY)
-  o.write(t)
+	print("x: " .. newX .. " y: " .. y ..	" Text: " .. t)
+	o.setCursorPos(newX, cY)
+	o.write(t)
 end
 
 function numberString(num)

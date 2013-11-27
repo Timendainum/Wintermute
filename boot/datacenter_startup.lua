@@ -1,3 +1,5 @@
+-- by Timendainum
+---------------------------------------------------
 -- declarations
 local mon = peri.monitor1
 

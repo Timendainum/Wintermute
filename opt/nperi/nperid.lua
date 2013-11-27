@@ -2,14 +2,14 @@
 -- Forked by Timendainum
 -- adapted from script by Lyqyd
 ---------------------------------------------------
---purpose
+
 ---------------------------------------------------
--- Update log -------------------------------------
--- 11/21/13 - forked
----------------------------------------------------
+-- declarations
 connections = {}
 local port = 88
 
+---------------------------------------------------
+-- functions
 
 function nPeriDaemon ()
 	local function safeSend(theConnection, mType, m)

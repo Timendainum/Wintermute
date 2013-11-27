@@ -1,4 +1,6 @@
--- fission_startup
+-- by Timendainum
+---------------------------------------------------
+-- -- fission_startup
 ------------------------------------------
 -- declarations
 local mon = peri.monitor

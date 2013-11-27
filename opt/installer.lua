@@ -1,36 +1,33 @@
 -- opt/installer
 -- Created by Timendainum
 ---------------------------------------------------
--- Update log -------------------------------------
--- 11/20/13 - created
----------------------------------------------------
 
 ---------------------------------------------------
 -- functions
 ---------------------------------------------------
 function fsProtect(file)
-  -- make sure path exists
-  local path = string.gsub(file, fs.getName(file), "")
-  if (string.len(path) > 0) and not fs.isDir(path) then
-      fs.makeDir(path)
-  else
-    -- if file exists delete it
-    if fs.exists(file) then
-      fs.delete(file)
-    end
-  end
+	-- make sure path exists
+	local path = string.gsub(file, fs.getName(file), "")
+	if (string.len(path) > 0) and not fs.isDir(path) then
+			fs.makeDir(path)
+	else
+		-- if file exists delete it
+		if fs.exists(file) then
+			fs.delete(file)
+		end
+	end
 end
 
 function safePBGet(file, code)
 	print("Getting " .. file .. " from pastebin...")
-  fsProtect(file)
-  shell.run("pastebin", "get", code, file)  
+	fsProtect(file)
+	shell.run("pastebin", "get", code, file)	
 end
 
-function safeGHGet(file, author, repository, path)
+function safeGHGet(file, path)
 	print("Getting " .. file .. " from github...")
-  fsProtect(file)
-  shell.run("github", author .. "/" .. repository .. "/" .. path, file)
+	fsProtect(file)
+	shell.run("github", path, file)
 end
 
 ---------------------------------------------------
@@ -40,15 +37,15 @@ print("Executing installer...")
 
 local id = os.getComputerID()
 
--- download config files
+-- download config file
 print("Downloading computers config...")
-safePBGet("etc/computers", "68GLky6A")
+safeGHGet("etc/computers", "Timendainum/Wintermute/master/etc/computers.txt")
 
 -- read config file
 configComputers = config.readConfig("/etc/computers")
 
 print("Downloading files config...")
-safePBGet("etc/files", "4gY5mnLG")
+safeGHGet("etc/files", "Timendainum/Wintermute/master/etc/computers.txt")
 
 -- read config file
 configFiles = config.readConfig("/etc/files")
@@ -59,7 +56,7 @@ for k, v in pairs(configFiles) do
 	if v[2] == "pb" then
 		safePBGet(v[1], v[3])
 	elseif v[2] == "gh" then
-		safeGHGet(v[1], v[3], v[4], v[5])
+		safeGHGet(v[1], v[3])
 	end
 end
 

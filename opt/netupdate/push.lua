@@ -2,17 +2,16 @@
 -- by Timendainum
 -- based on script by Lyqyd
 ---------------------------------------------------
---purpose
+
 ---------------------------------------------------
--- Update log -------------------------------------
--- 11/21/13 - created
----------------------------------------------------
+-- declaraions
 local tArgs = {...}
 local port = 21
 local timeout = 5
 local slp = 0.01
 --read files config
 local files = config.readConfig("/etc/files")
+
 ---------------------------------------------------
 -- functions
 ---------------------------------------------------
