@@ -18,9 +18,9 @@ end
 
 function setSteam(setting)
 	if setting then
-		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledInput(redSide), colors.lightBlue))
+		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), colors.lightBlue))
 	else
-		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledInput(redSide), colors.lightBlue))
+		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledOutput(redSide), colors.lightBlue))
 	end
 end
 
@@ -30,9 +30,9 @@ end
 
 function setRod(setting)
 	if setting then
-		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledInput(redSide), colors.orange))
+		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), colors.orange))
 	else
-		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledInput(redSide), colors.orange))
+		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledOutput(redSide), colors.orange))
 	end
 end
 
@@ -42,9 +42,9 @@ end
 
 function setFuel(setting)
 	if setting then
-		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledInput(redSide), colors.pink))
+		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), colors.pink))
 	else
-		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledInput(redSide), colors.pink))
+		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledOutput(redSide), colors.pink))
 	end
 end
 
