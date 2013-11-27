@@ -66,17 +66,19 @@ function uxUpdateStoredEnergy(mon)
 end
 
 function uxUpdateInputStoredEnergy(mon)
-	local d = txt.numberString(peri.getFissionInputStoredEnergy())
+	local e = peri.getFissionInputStoredEnergy()
+	--local d = txt.numberString(e)
 	mon.setCursorPos(1,5)
 	mon.clearLine()
-	mon.write("Input Stored Energy: " .. d)
+	mon.write("Input Stored Energy: " .. e)
 end
 
 function uxUpdateOutputStoredEnergy(mon)
-	local d = txt.numberString(peri.getFissionOutputStoredEnergy())
+	local e = peri.getFissionOutputStoredEnergy()
+	--local d = txt.numberString()
 	mon.setCursorPos(1,6)
 	mon.clearLine()
-	mon.write("Output Stored Energy: " .. d)
+	mon.write("Output Stored Energy: " .. e)
 end
 
 function uxUpdateStates(mon)
