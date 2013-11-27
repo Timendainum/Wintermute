@@ -18,7 +18,7 @@ local fuel = colors.magenta
 -- util functions
 ------------------------------------------
 function getSteam()
-	return colors.test(redstone.getBundledInput(redSide), rod)
+	return colors.test(redstone.getBundledInput(redSide), steam)
 end
 
 function setSteam(setting)
