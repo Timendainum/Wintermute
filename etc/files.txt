@@ -1,0 +1,43 @@
+--pastebin
+--path;pb;code
+--gethub
+--local path;gh;author;repo;path
+--programs
+/install;pb;RiXxyR1R
+/startup;pb;mnnfU2Aa
+/lp;pb;DJGRfd61
+/test;pb;sh1uzSMT
+--boot
+/boot/apiloader;pb;MNdHaZnW
+/boot/datacenter_startup;pb;wLrXqqRv
+/boot/fission_startup;pb;FEvUZ1FW
+--apis
+/opt/lib/txt;pb;qKWWGBUQ
+/opt/lib/red;pb;VW0J2QCp
+/opt/lib/str;pb;0vL79TVn
+/opt/lib/config;pb;USfi5q1Y
+/opt/lib/nperi;pb;APNEz5BY
+--specific apis
+/opt/lib/datacenter/peri;pb;7qmywMYs
+/opt/lib/fission/peri;pb;YN3GbQep
+--programs
+/opt/fileserver/fsd;pb;43TbMGGu
+/opt/netupdate/push;pb;fnQUDyGz
+/opt/nperi/nperid;pb;XhaDnyZ8
+-- 3rd party misc
+/github;pb;knix7nQp
+/fsclient;pb;w5qrbaVs
+--LyqydNet API
+-- APIs
+/opt/lib/connection;gh;lyqyd;ComputerCraft-LyqydNet;master/apis/connection
+/opt/lib/net;gh;lyqyd;ComputerCraft-LyqydNet;master/apis/net
+/opt/lib/netfile;gh;lyqyd;ComputerCraft-LyqydNet;master/apis/netfile
+-- programs
+/exit;gh;lyqyd;ComputerCraft-LyqydNet;master/programs/exit
+/modread;gh;lyqyd;ComputerCraft-LyqydNet;master/programs/modread
+/netd;gh;lyqyd;ComputerCraft-LyqydNet;master/programs/netd
+/netmon;gh;lyqyd;ComputerCraft-LyqydNet;master/programs/netmon
+/reboot;gh;lyqyd;ComputerCraft-LyqydNet;master/programs/reboot
+/routed;gh;lyqyd;ComputerCraft-LyqydNet;master/programs/routed
+/shutdown;gh;lyqyd;ComputerCraft-LyqydNet;master/programs/shutdown
+/socketd;gh;lyqyd;ComputerCraft-LyqydNet;master/programs/socketd
