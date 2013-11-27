@@ -25,6 +25,7 @@ function installPre(path, file, code)
 end
 
 function installPreAPI(path, file, code)
+	local fullPath = path .. file
 	installPre(path, file, code)
 	print("Loading " .. fullPath)
 	os.loadAPI(fullPath)
