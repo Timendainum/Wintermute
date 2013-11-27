@@ -21,7 +21,11 @@ function installPre(path, file, code)
 	local fullPath = path .. file
 	print("Installing " .. fullPath)
 	fsProtect(path, file)
-	shell.run("github", fullPath, code)
+	shell.run("github", code, fullPath)
+end
+
+function installPreAPI(path, file, code)
+	installPre(path, file, code)
 	print("Loading " .. fullPath)
 	os.loadAPI(fullPath)
 end
@@ -41,8 +45,8 @@ local code = "knix7nQp"
 fsProtect(path, file)
 shell.run("pastebin", "get", code, fullPath) 
 
-installPre("/opt/lib/", "str", "Timendainum/Wintermute/master/opt/lib/str.lua")
-installPre("/opt/lib/", "config", "Timendainum/Wintermute/master/opt/lib/config.lua")
+installPreAPI("/opt/lib/", "str", "Timendainum/Wintermute/master/opt/lib/str.lua")
+installPreAPI("/opt/lib/", "config", "Timendainum/Wintermute/master/opt/lib/config.lua")
 
 ---------------------------------------------------
 print("Installing installer...")
