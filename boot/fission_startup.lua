@@ -9,42 +9,47 @@ local rodName = "rednet_cable_3"
 local fuelName = "rednet_cable_4"
 local redSide = "bottom"
 
+local steam = colors.lightBlue
+local rod = colors.orange
+local fuel = colors.magenta
+
+
 ------------------------------------------
 -- util functions
 ------------------------------------------
 function getSteam()
-	return colors.test(redstone.getBundledInput(redSide), colors.lightBlue)
+	return colors.test(redstone.getBundledInput(redSide), rod)
 end
 
 function setSteam(setting)
 	if setting then
-		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), colors.lightBlue))
+		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), steam))
 	else
-		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledOutput(redSide), colors.lightBlue))
+		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledOutput(redSide), steam))
 	end
 end
 
 function getRod()
-	return colors.test(redstone.getBundledInput(redSide), colors.orange)
+	return colors.test(redstone.getBundledInput(redSide), rod)
 end
 
 function setRod(setting)
 	if setting then
-		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), colors.orange))
+		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), rod))
 	else
-		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledOutput(redSide), colors.orange))
+		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledOutput(redSide), rod))
 	end
 end
 
 function getFuel()
-	return colors.test(redstone.getBundledInput(redSide), colors.pink)
+	return colors.test(redstone.getBundledInput(redSide), fuel)
 end
 
 function setFuel(setting)
 	if setting then
-		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), colors.pink))
+		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), fuel))
 	else
-		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledOutput(redSide), colors.pink))
+		redstone.setBundledOutput(redSide, colors.subtract(redstone.getBundledOutput(redSide), fuel))
 	end
 end
 
