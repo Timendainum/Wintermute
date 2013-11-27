@@ -11,7 +11,6 @@ local timeout = 5
 local slp = 0.01
 --read files config
 local files = config.readConfig("/etc/files")
-
 ---------------------------------------------------
 -- functions
 ---------------------------------------------------

@@ -58,6 +58,7 @@ end
 ------------------------------------------
 function uxUpdateStoredEnergy(mon)
 	local e = peri.getFissionStoredEnergy()
+	print(e)
 	local d = txt.numberString(e)
 	mon.setCursorPos(1,4)
 	mon.clearLine()
