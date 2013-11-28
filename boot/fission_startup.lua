@@ -118,7 +118,7 @@ while 1 do
 	uxUpdateInputStoredEnergy(mon)
 	uxUpdateOutputStoredEnergy(mon)
 
-	if peri.getFissionStoredEnergy() <- 2000000 and peri.getFissionOutputStoredEnergy() <= 2000000 and getSteam() and not getRod() then
+	if peri.getFissionStoredEnergy() <= 2000000 and peri.getFissionOutputStoredEnergy() <= 2000000 and getSteam() and not getRod() then
 		setFuel(true)
 	else
 		setFuel(false)
