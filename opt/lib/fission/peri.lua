@@ -32,7 +32,7 @@ function getFissionStoredEnergy()
 	for k,v in ipairs(cellsEnergy) do
 		result = result + v
 	end
-	return tonumber(result)
+	return result
 end
 
 function getFissionInputStoredEnergy()
@@ -40,7 +40,7 @@ function getFissionInputStoredEnergy()
 	for k,v in ipairs(inputCellIds) do
 		result = result + cellsEnergy[v]
 	end
-	return tonumber(result)
+	return result
 end
 
 function getFissionOutputStoredEnergy()
@@ -48,7 +48,7 @@ function getFissionOutputStoredEnergy()
 	for k,v in ipairs(outputCellIds) do
 		result = result + cellsEnergy[v]
 	end
-	return tonumber(result)
+	return result
 end
 
 ---------------------------------------------------
