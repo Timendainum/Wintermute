@@ -44,7 +44,7 @@ function numberString(num)
 		nNumber = nNumber / million
 		postfix = "M"
 	elseif nNumber > thousand then
-		nNumber = nNumber / thousand .. "K"
+		nNumber = nNumber / thousand
 		postfix = "K"
 	end
 	nNumber = nNumber * 100
