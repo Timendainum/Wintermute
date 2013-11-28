@@ -66,7 +66,7 @@ end
 
 function uxUpdateInputStoredEnergy(mon)
 	local e = peri.getFissionInputStoredEnergy()
-	local d = tostring(e)
+	local d = txt.numberString(e)
 	mon.setCursorPos(1,5)
 	mon.clearLine()
 	mon.write("Input Stored Energy: " .. d)
@@ -74,7 +74,7 @@ end
 
 function uxUpdateOutputStoredEnergy(mon)
 	local e = peri.getFissionOutputStoredEnergy()
-	local d = tostring(e)
+	local d = txt.numberString(e)
 	mon.setCursorPos(1,6)
 	mon.clearLine()
 	mon.write("Output Stored Energy: " .. d)
