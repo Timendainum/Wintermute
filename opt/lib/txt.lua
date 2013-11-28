@@ -29,21 +29,28 @@ function centerWrite(o, t)
 end
 
 function numberString(num)
-	local x = tonumber(num)
+	local nNumber = tonumber(num)
 	local billion = 1000000000
 	local million = 1000000
 	local thousand = 1000
+	local postfix = ""
 
 	-- billon
-	if x > billion then
-		x = x / billion .. "B"
+	if nNumber > billion then
+		nNumber = nNumber / billion
+		postfix = "B"
 	-- million 
-	elseif x > million then
-		x = x / million .. "M"
-	elseif x > thousand then
-		x = x / thousand .. "K"
+	elseif nNumber > million then
+		nNumber = nNumber / million
+		postfix = "M"
+	elseif nNumber > thousand then
+		nNumber = nNumber / thousand .. "K"
+		postfix = "K"
 	end
-	return string.format("%.2f", x)
+	nNumber = nNumber * 100
+	nNumber = math.ceil(nNumber)
+	nNumber = nNumber / 100
+	return tostring(nNumber) .. postfix
 end
 
 function sPrint(...)
