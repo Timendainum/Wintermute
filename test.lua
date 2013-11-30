@@ -110,7 +110,7 @@ print("Press enter for next test.")
 local junk = read()
 ---------------------------------------------------
 print("Testing call()")
-local callResponse = nperi.call(server, periName1,"write","This is a test! ")
+local callResponse = nperi.call(server, periName1, "write", "This is a test! ")
 if callResponse ~= nil then
         print("peri1 response: " .. callResponse)
 else

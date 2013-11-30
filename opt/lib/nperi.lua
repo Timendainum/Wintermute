@@ -141,7 +141,7 @@ function call(server, side, method, ...)
 
 	-- request
 	--print("Requesting call()")
-	if safeSend(server, "instruction", "call", side, method) then
+	if safeSend(server, "instruction", "call", side, method, ...) then
 		result = { gatherResponse(server) }
 	else
 		return nil
