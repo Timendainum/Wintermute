@@ -45,6 +45,7 @@ end
 -- functions
 -- send
 function send(conn, messageType, ...)
+	print("send called...")
 	if conn then
 		local tSData = {...}
 		local result = textutils.serialize(tSData)
@@ -58,6 +59,7 @@ end
 
 -- awaitResponse
 function awaitResponse(conn, timeout)
+	print("awaitResponse called...")
 	if conn then
 		local rawMessType, messType, rawMessage, tMessage = nil, "nil", nil, nil
 		rawMessType, rawMessage = connection.awaitResponse(conn, timeout)
@@ -77,6 +79,7 @@ end
 
 -- listenIdle()
 function listenIdle(port)
+	print("listenIdle called...")
 	local conn, rawMessType, messType, rawMessage, tMessage = nil, nil, "nil", nil, {}
 	conn, rawMessType, rawMessage = connection.listenIdle(port)
 	
