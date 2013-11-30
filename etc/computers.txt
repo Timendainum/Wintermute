@@ -11,3 +11,4 @@
 195;corenerouter;router;;
 196;deepstoragenrouter;router;;
 197;powerperi;nperi;;
+237;coreperi;nperi;;
