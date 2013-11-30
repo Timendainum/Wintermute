@@ -72,7 +72,7 @@ print("Testing getMethods()")
 
 print("Getting methods for peri1...")
 local tMethods = nperi.getMethods(server, periName1)
-if tMethods ~= nil then
+if tMethods ~= nil and tMethods[1] then
 	print("Display getMethods() for peri1:")
 	for k,v in pairs(tMethods) do
 		print(v)
@@ -85,7 +85,7 @@ local junk = read()
 
 print("Getting methods for peri2...")
 local tMethods = nperi.getMethods(server, periName2)
-if tMethods ~= nil then
+if tMethods ~= nil and tMethods[1] then
 	print("Display getMethods() for peri2:")
 	for k,v in pairs(tMethods) do
 		print(v)
@@ -98,7 +98,7 @@ local junk = read()
 
 print("Getting methods for peri3...")
 local tMethods = nperi.getMethods(server, periName3)
-if tMethods ~= nil then
+if tMethods ~= nil and tMethods[1] then
 	print("Display getMethods() for peri3:")
 	for k,v in pairs(tMethods) do
 		print(v)
