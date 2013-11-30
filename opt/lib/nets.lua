@@ -9,7 +9,7 @@
 ---------------------------------------------------
 -- local functions
 local function processMessageType(raw)
-	print("processMessageType called")
+	txt.sPrint("processMessageType called: ", eaw)
 	local result = "nil"
 	if raw ~= nil then
 		if type(raw) == "string" then
@@ -18,11 +18,12 @@ local function processMessageType(raw)
 			result = "invalid"
 		end
 	end
+	txt.sPrint("processMessageType done: ", result)
 	return result
 end
 
 local function processMessage(raw)
-	print("processMessage called")
+	txt.sPrint("processMessage called: ", raw)
 	local tMessage = {}
 	-- preprocess message --
 	if raw == nil then
@@ -39,6 +40,7 @@ local function processMessage(raw)
 	end
 
 	-- handle response
+	txt.sPrint("processMessage done: ", unpack(tMessage))
 	return tMessage
 end
 
@@ -47,7 +49,7 @@ end
 -- functions
 -- send
 function send(conn, messageType, ...)
-	print("send called...")
+	txt.sPrint("send called: conn: ", conn, "  messageType: ",messageType, ...)
 	if conn then
 		local tSData = {...}
 		local result = textutils.serialize(tSData)
@@ -61,7 +63,7 @@ end
 
 -- awaitResponse
 function awaitResponse(conn, timeout)
-	print("awaitResponse called...")
+	print("awaitResponse called: conn: ", conn, " timeout:" ,timeout)
 	if conn then
 		local rawMessType, messType, rawMessage, tMessage = nil, "nil", nil, nil
 		rawMessType, rawMessage = connection.awaitResponse(conn, timeout)
