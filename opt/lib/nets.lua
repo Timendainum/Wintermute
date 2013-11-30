@@ -9,6 +9,7 @@
 ---------------------------------------------------
 -- local functions
 local function processMessageType(raw)
+	print("processMessageType called")
 	local result = "nil"
 	if raw ~= nil then
 		if type(raw) == "string" then
@@ -21,6 +22,7 @@ local function processMessageType(raw)
 end
 
 local function processMessage(raw)
+	print("processMessage called")
 	local tMessage = {}
 	-- preprocess message --
 	if raw == nil then
