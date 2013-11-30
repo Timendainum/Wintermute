@@ -6,7 +6,7 @@
 /install;gh;Timendainum/Wintermute/master/install.lua
 /startup;gh;Timendainum/Wintermute/master/startup.lua
 /lp;gh;Timendainum/Wintermute/master/lp.lua
-/plf;gh/Timendainum/Wintermute/master/plf.lua
+/plf;gh;/Timendainum/Wintermute/master/plf.lua
 /test;gh;Timendainum/Wintermute/master/test.lua
 --boot
 /boot/apiloader;gh;Timendainum/Wintermute/master/boot/apiloader.lua
