@@ -10,7 +10,7 @@
 -- local functions
 local function processMessageType(raw)
 	local result = "nil"
-	if raw ~= nil and then
+	if raw ~= nil then
 		if type(raw) == "string" then
 			result = raw
 		else
@@ -44,7 +44,7 @@ end
 ---------------------------------------------------
 -- functions
 -- send
-function send(conn, messageType, {...})
+function send(conn, messageType, ...)
 	if conn then
 		local tSData = {...}
 		local result = textutils.serialize(tSData)
