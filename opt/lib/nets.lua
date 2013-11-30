@@ -39,8 +39,13 @@ local function processMessage(raw)
 		tMessage = nil
 	end
 
+	if tMessage == nil then
+		tMessage = { nil }
+	end
+	
 	-- handle response
 	txt.sPrint("processMessage done: ", unpack(tMessage))
+
 	return tMessage
 end
 
