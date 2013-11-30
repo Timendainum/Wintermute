@@ -14,6 +14,25 @@ local maxRetrys = 3
 ---------------------------------------------
 -- local functions
 ---------------------------------------------
+local function connectToServer(server)
+	sleep(slp)
+	if not serverConnections[server] then
+		-- attempt to connect
+		serverConnections[server], response = connection.open(server, port, timeout)
+		if not serverConnections[server] then
+			txt.sPrint("--Connection to ", server, " Failed! <CR>")
+			serverConnections[server], response = false, false
+			return false
+		else
+			--txt.sPrint("--Connected to ", server, " Response: ", response)
+			return true
+		end
+	else
+		--print("Server already connected!")
+		return true
+	end
+end
+
 local function safeSend(server, mType, ...)
 	if connectToServer(server) then
 		return nets.send(serverConnection, mType, ...)
@@ -51,24 +70,7 @@ local function gatherResponse(server)
 	end
 end
 
-local function connectToServer(server)
-	sleep(slp)
-	if not serverConnections[server] then
-		-- attempt to connect
-		serverConnections[server], response = connection.open(server, port, timeout)
-		if not serverConnections[server] then
-			txt.sPrint("--Connection to ", server, " Failed! <CR>")
-			serverConnections[server], response = false, false
-			return false
-		else
-			--txt.sPrint("--Connected to ", server, " Response: ", response)
-			return true
-		end
-	else
-		--print("Server already connected!")
-		return true
-	end
-end
+
 
 local function closeConnection(server)
 	if connection.close(serverConnections[server]) then
