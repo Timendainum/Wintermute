@@ -10,7 +10,9 @@ local tResult = {}
 -- validate args
 if not tArgs[1] then
 	print("Invalid arguments.")
-	print("")
+	print("Usage local: plf <peripheral name>")
+	print("Usage local network: plf <server_label> <peripheral name>")
+	return false
 end
 
 ---------------------------------------------------
