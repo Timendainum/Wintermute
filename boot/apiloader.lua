@@ -13,4 +13,5 @@ os.loadAPI("/opt/lib/net")
 os.loadAPI("/opt/lib/netfile")
 
 --other
+os.loadAPI("/opt/lib/nets")
 os.loadAPI("/opt/lib/nperi")

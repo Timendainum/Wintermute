@@ -12,15 +12,9 @@ local port = 88
 -- functions
 
 function nPeriDaemon ()
-	local function safeSend(theConnection, mType, m)
-		--print("Starting safeSend()")
+	local function safeSend(theConnection, mType, ...)
 		if connections[theConnection] then
-			dataType = type(m)
-			--txt.sPrint("dataType: ", dataType)
-                        local tSData = { m }
-       	                local result = textutils.serialize(tSData)
-               	        --txt.sPrint("Sending serialized data:", result)
-                       	return connection.send(theConnection, mType, result)
+			return nets.send(theConnection, mType, ...)
 		else
 			print("No connection to send!")
 			return false
@@ -28,55 +22,54 @@ function nPeriDaemon ()
 	end
 
 	while true do
-		conn, messType, message = connection.listenIdle(port)
+		conn, messType, tMessage = nets.listenIdle(port)
 		if connections[conn] and connections[conn].status == "open" then
 			if messType == "close" then
 				--print("Received close.")
 				connection.close(conn, disconnect, true)
 				connections[conn].status = "closed"
 			elseif messType == "instruction" then
-				txt.sPrint("Received instruction: ", message)
+				txt.sPrint("Received instruction: ", unpack(tMessage))
 				-- parse message
-				local tCommand = textutils.unserialize(message)[1]
-				if tCommand[1] then
-					if tCommand[1] == "isPresent" then
+				if tMessage[1] then
+					if tMessage[1] == "isPresent" then
 						--print("Processing isPresent request")
-						if tCommand[2] then
-							safeSend(conn, "data", peripheral.isPresent(tCommand[2]))
+						if tMessage[2] then
+							safeSend(conn, "data", peripheral.isPresent(tMessage[2]))
 						else
 							safeSend(conn, "response", "Invalid arguments.")
 						end
-					elseif tCommand[1] == "getType" then
+					elseif tMessage[1] == "getType" then
 						--print("Processing getType request")
-						if tCommand[2] then
-							safeSend(conn, "data", peripheral.getType(tCommand[2]))
+						if tMessage[2] then
+							safeSend(conn, "data", peripheral.getType(tMessage[2]))
 						else
 							safeSend(conn, "response", "Invalid arguments.")
 						end
-					elseif tCommand[1] == "getMethods" then
+					elseif tMessage[1] == "getMethods" then
 						--print("processing getMethods request")
-						if tCommand[2] then
-    							safeSend(conn, "data", peripheral.getMethods(tCommand[2]))
+						if tMessage[2] then
+    							safeSend(conn, "data", peripheral.getMethods(tMessage[2]))
 						else
 							safeSend(conn, "response", "Invalid arguments.")
 						end
-					elseif tCommand[1] == "call" then
+					elseif tMessage[1] == "call" then
 						--print("processing call request")
-						if tCommand[2] and tCommand[3] then
+						if tMessage[2] and tMessage[3] then
 							local tArgs = { }
-							for k,v in ipairs(tCommand) do
+							for k,v in ipairs(tMessage) do
 								if k > 3 then
 									table.insert(tArgs, v)
 								end
 							end
-    							safeSend(conn, "data", peripheral.call(tCommand[2], tCommand[3], unpack(tArgs)))
+    							safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
 						else
 							safeSend(conn, "response", "Invalid arguments.")
 						end
-					elseif tCommand[1] == "getNames" then
+					elseif tMessage[1] == "getNames" then
 						--print("processing getNames request")
 						safeSend(conn, "data", peripheral.getNames())
-					elseif tCommand[1] == "stop" then
+					elseif tMessage[1] == "stop" then
 						print("received stop")
 						return true
 					else

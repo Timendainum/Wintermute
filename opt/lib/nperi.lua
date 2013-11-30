@@ -6,7 +6,7 @@
 ---------------------------------------------
 local port = 88
 local timeout = 5
-local serverConnection = false
+local serverConnections = {}
 local response = false
 local slp = 0.0001
 local maxRetrys = 3
@@ -14,179 +14,136 @@ local maxRetrys = 3
 ---------------------------------------------
 -- local functions
 ---------------------------------------------
-local function safeSend(mType, m)
-	if serverConnection then
-		local tSData = { m }
-		local result = textutils.serialize(tSData)
-		--txt.sPrint("Sending serialized data: ",  result)
-		return connection.send(serverConnection, mType, result)
+local function safeSend(server, mType, ...)
+	if connectToServer(server) then
+		return nets.send(serverConnection, mType, ...)
 	else
-		print("No connection to send!")
 		return false
 	end
 end
 
-local function gatherResponse()
+local function gatherResponse(server)
 	--print("Awaiting result...")
-        local messType, message, response, retrys = nil, nil, nil, 0
-        while messType ~= "done" do
-		messType, message = connection.awaitResponse(serverConnection, timeout)
-		-- preprocess message --
-		if message == nil then
-			response = nil
-		elseif string.len(message) > 2 and string.sub(message, 1, 1) == "{" and string.sub(message, -1) == "}" then
-			local tResult = textutils.unserialize(message)
-			if tResult[1] then
-				response = tResult[1]
-			else
-				response = nil
-			end
-		else
-			response = nil
-		end
+	local messType, tMessage = nil, nil, nil
+	messType, tMessage = nets.awaitResponse(serverConnections[server], timeout)
 
-		-- process message
-		if messType == "close" then
-			--txt.sPrint("Server responded with close: ", message)
-                	return false
-		elseif messType == "data" then
-			--txt.sPrint("Server responded with data: ", message)
-			return response
-		elseif messType == "response" then
-			--txt.sPrint("Server responded with response: ", message)
-			return false
-		else
-			--txt.sPrint("Unrecognized packetType: ", messType, " message: ", message)
-			retrys = retrys + 1
-			if retrys >= maxRetrys then
-				return nil
-			end
-                end
+	-- preprocess message --
+	if tMessage == nil then
+		tMessage = { nil }
 	end
-	return response
+
+	-- process message
+	if messType == "close" then
+		-- close
+		txt.sPrint("Server responded with close: ", tMessage[1])
+		return false
+	elseif messType == "data" then
+		-- data
+		txt.sPrint("Server responded with data: ", tMessage[1])
+		return unpack(tMessage)
+	elseif messType == "response" then
+		-- response
+		txt.sPrint("Server responded with response: ", tMessage[1])
+		return false
+	else
+		-- anything else - invalid response
+		return false
+	end
 end
 
 local function connectToServer(server)
 	sleep(slp)
-	if not serverConnection then
+	if not serverConnections[server] then
 		-- attempt to connect
-		serverConnection, response = connection.open(server, port, timeout)
-	        if not serverConnection then
-	                txt.sPrint("--Connection to ", server, " Failed! <CR>")
-	                serverConnection, response = false, false
+		serverConnections[server], response = connection.open(server, port, timeout)
+		if not serverConnections[server] then
+			txt.sPrint("--Connection to ", server, " Failed! <CR>")
+			serverConnections[server], response = false, false
 			return false
-	        else
-	                --txt.sPrint("--Connected to ", server, " Response: ", response)
+		else
+			--txt.sPrint("--Connected to ", server, " Response: ", response)
 			return true
-	        end
+		end
 	else
 		--print("Server already connected!")
 		return true
 	end
 end
 
-local function closeConnection()
-        if connection.close(serverConnection) then
-		safeSend("close", "close")
-                serverConnection = false
-                --print("--Connection Closed.")
-        else
-                --print("--Could not close connection!")
-        end
+local function closeConnection(server)
+	if connection.close(serverConnections[server]) then
+		safeSend(server, "close", "close")
+		serverConnection = false
+		--print("--Connection Closed.")
+		return true
+	else
+		--print("--Could not close connection!")
+		return false
+	end
 end
-
-local function processArgs(...)
-	return {...}
-end
-
 
 ---------------------------------------------
 -- functions
 ---------------------------------------------
-function isPresent(server, side)
-        -- declarations
-        local bResult = false
- 
-        -- open connection
-        if not connectToServer(server) then
-		return false
+
+function closeAllConnections()
+	for k,v in pairs(serverConnections) do
+		closeConnection(k)
 	end
+end
+
+function isPresent(server, side)
+	-- declarations
+	local bResult = false
 
 	-- request
 	--print("Requesting isPresent()")
-	if safeSend("instruction", processArgs("isPresent", side)) then
-		bResult = gatherResponse()
+	if safeSend(server, "instruction", "isPresent", side) then
+		bResult = gatherResponse(server)
 	end
 
-	-- close connection
-	closeConnection()
 	return bResult
 end
 
 function getType(server, side)
-        -- declarations
-        local sResult = false
- 
-        -- open connection
-        if not connectToServer(server) then
-		return false
-       end
+	-- declarations
+	local sResult = false
 
 	-- request
 	--print("Requesting getType()")
-	if safeSend("instruction", processArgs("getType", side)) then
-		sResult = gatherResponse()
+	if safeSend(server, "instruction", "getType", side) then
+		sResult = gatherResponse(server)
 	end
-
-	-- close connection
-	closeConnection()
-	return sResult 
+	
+	return sResult
 end
 
 function getMethods(server,  side)
 	-- declarations
 	local tResult = { }
 
-        -- open connection
-        if not connectToServer(server) then
-		return false
-	end
-
 	-- request
 	--print("Requesting getMethods()")
-	if safeSend("instruction", processArgs("getMethods", side)) then
+	if safeSend(server, "instruction", "getMethods", side) then
 		tResult = gatherResponse()
 	end
 
-	-- close connection
-	closeConnection()
 	return tResult
 end
 
 function call(server, side, method, ...)
 	-- declarations
 	local result = nil
-	local tArgs = {...}
-	local command = {"call", side, method }
-	for k,v in ipairs(tArgs) do
-		table.insert(command, v)
-	end
-
-        -- open connection
-        if not connectToServer(server) then
-		return false
-	end
 
 	-- request
 	--print("Requesting call()")
-	
-	if safeSend("instruction", command) then
-		result = gatherResponse()
+	if safeSend(server, "instruction", "call", side, method) then
+		result = { gatherResponse() }
+	else
+		return nil
 	end
 
-	-- close connection
-	closeConnection()
-	return result
+	return unpack(result)
 end
 
 function wrap(server,  side)
@@ -207,18 +164,11 @@ function getNames(server)
 	-- declarations
 	local tResult = { }
 
-        -- open connection
-        if not connectToServer(server) then
-		return false
-	end
-
 	-- request
 	--print("Requesting getNames()")
-	if safeSend("instruction", processArgs("getNames")) then
+	if safeSend(server, "instruction", "getNames") then
 		tResult = gatherResponse()
 	end
 
-	-- close connection
-	closeConnection()
 	return tResult
 end
