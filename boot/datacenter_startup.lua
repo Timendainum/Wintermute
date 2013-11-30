@@ -1,7 +1,7 @@
 -- by Timendainum
 ---------------------------------------------------
 -- declarations
-local mon = peri.monitor1
+local mon = nperi.monitor1
 
 --write welcome message
 mon.clear()
