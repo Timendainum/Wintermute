@@ -50,7 +50,7 @@ function send(conn, messageType, ...)
 		local tSData = {...}
 		local result = textutils.serialize(tSData)
 		txt.sPrint("nets.send(): Sending serialized data: ",  result)
-		return connection.send(serverConnection, mType, result)
+		return connection.send(conn, messageType, result)
 	else
 		print("nets.send() failed, no connection to send.")
 		return false

@@ -23,7 +23,7 @@ function nPeriDaemon ()
 
 	while true do
 		local conn, messType, tMessage = nets.listenIdle(port)
-		print("Recieved wakeup...")
+		txt.sPrint("Recieved wakeup...", conn, messType, unpack(tMessage))
 		if connections[conn] and connections[conn].status == "open" then
 			if messType == "close" then
 				print("Received close.")
