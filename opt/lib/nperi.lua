@@ -18,13 +18,14 @@ local function connectToServer(server)
 	sleep(slp)
 	if not serverConnections[server] then
 		-- attempt to connect
-		serverConnections[server], response = connection.open(server, port, timeout)
-		if not serverConnections[server] then
+		local myConn, response = connection.open(server, port, timeout)
+		if not myConn then
 			txt.sPrint("--Connection to ", server, " Failed! <CR>")
 			serverConnections[server], response = false, false
 			return false
 		else
 			--txt.sPrint("--Connected to ", server, " Response: ", response)
+			table.insert(serverConnections, server, myConn)
 			return true
 		end
 	else
@@ -127,7 +128,7 @@ function getMethods(server,  side)
 	-- request
 	--print("Requesting getMethods()")
 	if safeSend(server, "instruction", "getMethods", side) then
-		tResult = gatherResponse()
+		tResult = gatherResponse(server)
 	end
 
 	return tResult
@@ -140,7 +141,7 @@ function call(server, side, method, ...)
 	-- request
 	--print("Requesting call()")
 	if safeSend(server, "instruction", "call", side, method) then
-		result = { gatherResponse() }
+		result = { gatherResponse(server) }
 	else
 		return nil
 	end
@@ -169,7 +170,7 @@ function getNames(server)
 	-- request
 	--print("Requesting getNames()")
 	if safeSend(server, "instruction", "getNames") then
-		tResult = gatherResponse()
+		tResult = gatherResponse(server)
 	end
 
 	return tResult
