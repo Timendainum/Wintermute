@@ -17,7 +17,7 @@
 /opt/lib/red;gh;Timendainum/Wintermute/master/opt/lib/red.lua
 /opt/lib/str;gh;Timendainum/Wintermute/master/opt/lib/str.lua
 /opt/lib/config;gh;Timendainum/Wintermute/master/opt/lib/config.lua
-/opt/lib/nperi;gh;Timendainum/Wintermute/master/opt/lib/nets.lua
+/opt/lib/nets;gh;Timendainum/Wintermute/master/opt/lib/nets.lua
 /opt/lib/nperi;gh;Timendainum/Wintermute/master/opt/lib/nperi.lua
 /opt/lib/periHelper;gh;Timendainum/Wintermute/master/opt/lib/periHelper.lua
 --specific apis
