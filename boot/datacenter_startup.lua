@@ -3,6 +3,11 @@
 -- declarations
 local mon = nperi.wrap("coreperi", "monitor_1")
 
+if mon == nil then
+	print("Unable to connect to monitor_1.")
+	return
+end
+
 --write welcome message
 mon.clear()
 
