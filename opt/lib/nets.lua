@@ -36,7 +36,7 @@ local function processMessage(raw)
 			tMessage = nil
 		end
 	else
-		tMessage = nil
+		tMessage = { raw }
 	end
 
 	if tMessage == nil then
