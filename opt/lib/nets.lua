@@ -99,5 +99,5 @@ function listenIdle(port)
 	tMessage = processMessage(rawMessage)
 
 	-- handle response
-	return messType, tMessage
+	return conn, messType, tMessage
 end
