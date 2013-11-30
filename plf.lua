@@ -20,7 +20,7 @@ if tArgs[2] then
 else
 	---------------------------------------------------
 	-- local peripheral
-	tResult = peripheral.(tArgs[1])
+	tResult = peripheral.getMethods(tArgs[1])
 end
 
 
