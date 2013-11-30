@@ -26,7 +26,7 @@ local function connectToServer(server)
 			return false
 		else
 			--txt.sPrint("--Connected to ", server, " Response: ", response)
-			table.insert(serverConnections, server, myConn)
+			serverConnections[server] = myConn
 			return true
 		end
 	else
