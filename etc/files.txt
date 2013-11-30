@@ -20,7 +20,6 @@
 /opt/lib/nperi;gh;Timendainum/Wintermute/master/opt/lib/nperi.lua
 /opt/lib/periHelper;gh;Timendainum/Wintermute/master/opt/lib/periHelper.lua
 --specific apis
-/opt/lib/datacenter/peri;gh;Timendainum/Wintermute/master/opt/lib/datacenter/peri.lua
 /opt/lib/fission/peri;gh;Timendainum/Wintermute/master/opt/lib/fission/peri.lua
 --programs
 /opt/fileserver/fsd;gh;Timendainum/Wintermute/master/opt/fileserver/fsd.lua

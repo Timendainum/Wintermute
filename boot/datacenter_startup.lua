@@ -1,7 +1,7 @@
 -- by Timendainum
 ---------------------------------------------------
 -- declarations
-local mon = peri.monitor1
+local mon = nperi.wrap("coreperi", "monitor_1")
 
 --write welcome message
 mon.clear()
