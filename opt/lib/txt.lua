@@ -10,7 +10,7 @@ function centerWrite(o, t)
 	--Get Term size
 	local x,y = o.getSize()
 	local halfX = math.ceil(x/2)
-	print("x: " .. x .. " y: " .. y .. " halfX: " .. halfX)
+	print("x: " .. tostring(x) .. " y: " .. tostring(y) .. " halfX: " .. halfX)
 
 	--get cursor
 	local cX, cY = o.getCursorPos()
