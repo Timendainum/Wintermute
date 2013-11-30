@@ -17,10 +17,11 @@ local maxRetrys = 3
 local function connectToServer(server)
 	sleep(slp)
 	if not serverConnections[server] then
+		txt.sPrint("Attempting to connect to ", server, " on port ", port)
 		-- attempt to connect
 		local myConn, response = connection.open(server, port, timeout)
 		if not myConn then
-			txt.sPrint("--Connection to ", server, " Failed! <CR>")
+			txt.sPrint("--Connection to ", server, " Failed!")
 			serverConnections[server], response = false, false
 			return false
 		else
@@ -36,7 +37,7 @@ end
 
 local function safeSend(server, mType, ...)
 	if connectToServer(server) then
-		return nets.send(serverConnection, mType, ...)
+		return nets.send(serverConnections[server], mType, ...)
 	else
 		return false
 	end
