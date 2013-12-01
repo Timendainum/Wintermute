@@ -55,7 +55,7 @@ function nPeriDaemon ()
 							safeSend(conn, "response", "Invalid arguments.")
 						end
 					elseif tMessage[1] == "call" then
-						print("processing call request")
+						--print("processing call request")
 						if tMessage[2] and tMessage[3] then
 							local tArgs = { }
 							for k,v in ipairs(tMessage) do

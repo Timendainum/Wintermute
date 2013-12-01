@@ -56,11 +56,11 @@ local function gatherResponse(server)
 	-- process message
 	if messType == "close" then
 		-- close
-		txt.sPrint("Server responded with close: ", tMessage[1])
+		--txt.sPrint("Server responded with close: ", tMessage[1])
 		return false
 	elseif messType == "data" then
 		-- data
-		txt.sPrint("Server responded with data: ", tMessage[1])
+		--txt.sPrint("Server responded with data: ", tMessage[1])
 		return unpack(tMessage)
 	elseif messType == "response" then
 		-- response
