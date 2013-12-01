@@ -17,7 +17,7 @@ local maxRetrys = 3
 local function connectToServer(server)
 	sleep(slp)
 	if not serverConnections[server] then
-		txt.sPrint("Attempting to connect to ", server, " on port ", port)
+		--txt.sPrint("Attempting to connect to ", server, " on port ", port)
 		-- attempt to connect
 		local myConn, response = connection.open(server, port, timeout)
 		if not myConn then

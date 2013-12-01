@@ -9,7 +9,7 @@
 ---------------------------------------------------
 -- local functions
 local function processMessageType(raw)
-	txt.sPrint("processMessageType called: ", eaw)
+	--txt.sPrint("processMessageType called: ", eaw)
 	local result = "nil"
 	if raw ~= nil then
 		if type(raw) == "string" then
@@ -18,12 +18,12 @@ local function processMessageType(raw)
 			result = "invalid"
 		end
 	end
-	txt.sPrint("processMessageType done: ", result)
+	--txt.sPrint("processMessageType done: ", result)
 	return result
 end
 
 local function processMessage(raw)
-	txt.sPrint("processMessage called: ", raw)
+	--txt.sPrint("processMessage called: ", raw)
 	local tMessage = {}
 	-- preprocess message --
 	if raw == nil then
@@ -44,7 +44,7 @@ local function processMessage(raw)
 	end
 	
 	-- handle response
-	txt.sPrint("processMessage done: ", unpack(tMessage))
+	--txt.sPrint("processMessage done: ", unpack(tMessage))
 
 	return tMessage
 end
@@ -54,11 +54,11 @@ end
 -- functions
 -- send
 function send(conn, messageType, ...)
-	txt.sPrint("send called: conn: ", conn, "  messageType: ",messageType, ...)
+	--txt.sPrint("send called: conn: ", conn, "  messageType: ",messageType, ...)
 	if conn then
 		local tSData = {...}
 		local result = textutils.serialize(tSData)
-		txt.sPrint("nets.send(): Sending serialized data: ",  result)
+		--txt.sPrint("nets.send(): Sending serialized data: ",  result)
 		return connection.send(conn, messageType, result)
 	else
 		print("nets.send() failed, no connection to send.")
@@ -68,7 +68,7 @@ end
 
 -- awaitResponse
 function awaitResponse(conn, timeout)
-	print("awaitResponse called: conn: ", conn, " timeout:" ,timeout)
+	--print("awaitResponse called: conn: ", conn, " timeout:" ,timeout)
 	if conn then
 		local rawMessType, messType, rawMessage, tMessage = nil, "nil", nil, nil
 		rawMessType, rawMessage = connection.awaitResponse(conn, timeout)
@@ -88,7 +88,7 @@ end
 
 -- listenIdle()
 function listenIdle(port)
-	print("listenIdle called...")
+	--print("listenIdle called...")
 	local conn, rawMessType, messType, rawMessage, tMessage = nil, nil, "nil", nil, {}
 	conn, rawMessType, rawMessage = connection.listenIdle(port)
 	

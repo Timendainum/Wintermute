@@ -23,32 +23,32 @@ function nPeriDaemon ()
 
 	while true do
 		local conn, messType, tMessage = nets.listenIdle(port)
-		txt.sPrint("Recieved wakeup...", conn, messType, unpack(tMessage))
+		--txt.sPrint("Recieved wakeup...", conn, messType, unpack(tMessage))
 		if connections[conn] and connections[conn].status == "open" then
 			if messType == "close" then
 				print("Received close.")
 				connection.close(conn, disconnect, true)
 				connections[conn].status = "closed"
 			elseif messType == "instruction" then
-				txt.sPrint("Received instruction: ", unpack(tMessage))
+				--txt.sPrint("Received instruction: ", unpack(tMessage))
 				-- parse message
 				if tMessage[1] then
 					if tMessage[1] == "isPresent" then
-						print("Processing isPresent request")
+						--print("Processing isPresent request")
 						if tMessage[2] then
 							safeSend(conn, "data", peripheral.isPresent(tMessage[2]))
 						else
 							safeSend(conn, "response", "Invalid arguments.")
 						end
 					elseif tMessage[1] == "getType" then
-						print("Processing getType request")
+						--print("Processing getType request")
 						if tMessage[2] then
 							safeSend(conn, "data", peripheral.getType(tMessage[2]))
 						else
 							safeSend(conn, "response", "Invalid arguments.")
 						end
 					elseif tMessage[1] == "getMethods" then
-						print("processing getMethods request")
+						--print("processing getMethods request")
 						if tMessage[2] then
     							safeSend(conn, "data", peripheral.getMethods(tMessage[2]))
 						else
@@ -68,7 +68,7 @@ function nPeriDaemon ()
 							safeSend(conn, "response", "Invalid arguments.")
 						end
 					elseif tMessage[1] == "getNames" then
-						print("processing getNames request")
+						--print("processing getNames request")
 						safeSend(conn, "data", peripheral.getNames())
 					elseif tMessage[1] == "stop" then
 						print("received stop")
@@ -84,7 +84,7 @@ function nPeriDaemon ()
 			end
 			safeSend(conn, "done", "ready")
 		elseif messType == "query" then
-				print("received query")
+				--print("received query")
 				local connect = {}
 				connect.status = "open"
 				connect.name = connection.name(conn)
