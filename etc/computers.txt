@@ -14,3 +14,4 @@
 237;coreperi;nperi;;
 238;animalcenterrouter;router;;
 239;cowpasturerouter;router;;
+240;cowsensor;nperi;;
