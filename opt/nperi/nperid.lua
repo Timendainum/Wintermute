@@ -26,7 +26,7 @@ function nPeriDaemon ()
 		--txt.sPrint("Recieved wakeup...", conn, messType, unpack(tMessage))
 		if connections[conn] and connections[conn].status == "open" then
 			if messType == "close" then
-				print("Received close.")
+				--print("Received close.")
 				connection.close(conn, disconnect, true)
 				connections[conn].status = "closed"
 			elseif messType == "instruction" then
