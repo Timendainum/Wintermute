@@ -109,7 +109,7 @@ end
 print("Press enter for next test.")
 local junk = read()
 ---------------------------------------------------
-print("Testing call()")
+print("Testing call() simple")
 local callResponse = nperi.call(server, periName1, "write", "This is a test! ")
 if callResponse ~= nil then
         print("peri1 response: " .. callResponse)
@@ -119,15 +119,17 @@ end
 print("Press enter for next test.")
 local junk = read()
 
-print("Testing call()")
-local callResponse = nperi.call(server, periName2,"setColor", colors.white)
+print("Testing call() multiple results")
+local x, y = nperi.call(server, periName1,"getSize")
 if callResponse ~= nil then
-        print("peri2 response: " .. callResponse)
+        print("peri2 response: x: " .. tostring(x) .. " y: " .. tostring(y))
 else
         print("nil response for peri2! :(")
 end
 print("Press enter for next test.")
 local junk = read()
+
+
 ---------------------------------------------------
 print("Testing getNames()")
 local tNames = nperi.getNames(server)
