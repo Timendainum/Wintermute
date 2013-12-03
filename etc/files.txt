@@ -26,6 +26,7 @@
 /opt/fileserver/fsd;gh;Timendainum/Wintermute/master/opt/fileserver/fsd.lua
 /opt/netupdate/push;gh;Timendainum/Wintermute/master/opt/netupdate/push.lua
 /opt/nperi/nperid;gh;Timendainum/Wintermute/master/opt/nperi/nperid.lua
+/opt/farm/cow;gh;Timendainum/Wintermute/master/opt/farm/cow.lua
 -- 3rd party misc
 /fsclient;gh;Timendainum/Wintermute/master/fsclient.lua
 --LyqydNet API
