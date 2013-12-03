@@ -4,7 +4,7 @@ local sensor = nperi.wrap("cowsensor2", "top")
 local cows = {}
 
 local function updateCows()
-	local tResults = nperi.call("cowsensor2", "top","getTargets")
+	local tResults = nperi.call("cowsensor2", "top", "getTargets")
 	if tResult ~= nil then
 		cows = {}
 		for k,v in pairs do
