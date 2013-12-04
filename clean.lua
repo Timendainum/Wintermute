@@ -1,0 +1,22 @@
+-- clean up program
+print("This program will attempt to delete everything that was installed off of this computer. It will be devastating and final, are you sure you wish to proceed?")
+local input = read()
+if input == "y" then
+	fs.delete("boot")
+	fs.delete("etc")
+	fs.delete("opt")
+	fs.delete("exit")
+	fs.delete("fsclient")
+	fs.delete("github")
+	fs.delete("lp")
+	fs.delete("modread")
+	fs.delete("netd")
+	fs.delete("netmon")
+	fs.delete("plf")
+	fs.delete("reboot")
+	fs.delete("routed")
+	fs.delete("shutdown")
+	fs.delete("socketd")
+	fs.delete("startup")
+	fs.delete("test")
+end

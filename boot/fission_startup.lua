@@ -3,7 +3,6 @@
 -- -- fission_startup
 ------------------------------------------
 -- declarations
-local mon = peri.monitor
 local steamName = "rednet_cable_2"
 local rodName = "rednet_cable_3"
 local fuelName = "rednet_cable_4"
@@ -13,15 +12,62 @@ local steam = colors.lightBlue
 local rod = colors.orange
 local fuel = colors.magenta
 
+-- declarations
+local mon = nil
+
+-- cells indexed by cellId as number
+local cells = {}
+-- indexed by cellId, value as number
+local cellsEnergy = {}
+
+-- reference: cells indexed by cellId as number
+local inputCellIds = {1, 2, 11, 12, 21, 22, 31, 32, 41, 42}
+local outputCellIds = {9, 10, 19, 20, 29, 30, 39, 40, 49, 50}
+
+
+---------------------------------------------------
+local function updateFissionStoredEnergy()
+	print("Updating network data")
+	cellsEnergy = {}
+	for key, value in ipairs(cells) do
+		cellsEnergy[key] = cells[key].getEnergyStored()
+		write(".")
+	end
+	print("done!")
+end
+
+local function getFissionStoredEnergy()
+	local result = 0
+	for k,v in ipairs(cellsEnergy) do
+		result = result + v
+	end
+	return result
+end
+
+local function getFissionInputStoredEnergy()
+	local result = 0
+	for k,v in ipairs(inputCellIds) do
+		result = result + cellsEnergy[v]
+	end
+	return result
+end
+
+local function getFissionOutputStoredEnergy()
+	local result = 0
+	for k,v in ipairs(outputCellIds) do
+		result = result + cellsEnergy[v]
+	end
+	return result
+end
 
 ------------------------------------------
 -- util functions
 ------------------------------------------
-function getSteam()
+local function getSteam()
 	return colors.test(redstone.getBundledInput(redSide), steam)
 end
 
-function setSteam(setting)
+local function setSteam(setting)
 	if setting then
 		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), steam))
 	else
@@ -29,11 +75,11 @@ function setSteam(setting)
 	end
 end
 
-function getRod()
+local function getRod()
 	return colors.test(redstone.getBundledInput(redSide), rod)
 end
 
-function setRod(setting)
+local function setRod(setting)
 	if setting then
 		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), rod))
 	else
@@ -41,11 +87,11 @@ function setRod(setting)
 	end
 end
 
-function getFuel()
+local function getFuel()
 	return colors.test(redstone.getBundledInput(redSide), fuel)
 end
 
-function setFuel(setting)
+local function setFuel(setting)
 	if setting then
 		redstone.setBundledOutput(redSide, colors.combine(redstone.getBundledOutput(redSide), fuel))
 	else
@@ -56,31 +102,31 @@ end
 ------------------------------------------
 -- ux functions
 ------------------------------------------
-function uxUpdateStoredEnergy(mon)
-	local e = peri.getFissionStoredEnergy()
+local function uxUpdateStoredEnergy(mon)
+	local e = getFissionStoredEnergy()
 	local d = txt.numberString(e)
 	mon.setCursorPos(1,4)
 	mon.clearLine()
 	mon.write("Stored Energy: " .. d)
 end
 
-function uxUpdateInputStoredEnergy(mon)
-	local e = peri.getFissionInputStoredEnergy()
+local function uxUpdateInputStoredEnergy(mon)
+	local e = getFissionInputStoredEnergy()
 	local d = txt.numberString(e)
 	mon.setCursorPos(1,5)
 	mon.clearLine()
 	mon.write("Input Stored Energy: " .. d)
 end
 
-function uxUpdateOutputStoredEnergy(mon)
-	local e = peri.getFissionOutputStoredEnergy()
+local function uxUpdateOutputStoredEnergy(mon)
+	local e = getFissionOutputStoredEnergy()
 	local d = txt.numberString(e)
 	mon.setCursorPos(1,6)
 	mon.clearLine()
 	mon.write("Output Stored Energy: " .. d)
 end
 
-function uxUpdateStates(mon)
+local function uxUpdateStates(mon)
 	mon.setCursorPos(1,9)
 	mon.clearLine()
 	mon.write("Steam:" .. tostring(getSteam()))
@@ -92,11 +138,12 @@ function uxUpdateStates(mon)
 	mon.write("Fuel:" .. tostring(getFuel()))
 end
 
-------------------------------------------
+
+---------------------------------------------------
 -- main program
-------------------------------------------
-
-
+---------------------------------------------------
+-- peripherals
+mon = peripheral.wrap("monitor_4")
 -- monitor setup
 x, y = mon.getSize()
 print("Monitor Size: " .. x .. ", " .. y)
@@ -110,15 +157,30 @@ mon.setCursorPos(1,8)
 mon.clearLine()
 mon.write("---------------------------------------")
 
+-- build main energy cell table
+print("Wrapping networked peripherals")
+for x = 1, 50 do
+	local name = "redstone_energy_cell_" .. tostring(x)
+	cells[x] = nperi.wrap("powerperi", name)
+	if cells[x] == nil then
+		print(name .. " is nil! <CR>")
+		local junk = read()
+	else
+		write(".")
+	end
+end
+print(" done!")
+
+
 --update mon loop
 while 1 do
-	peri.updateFissionStoredEnergy()
+	updateFissionStoredEnergy()
 	print("Updating screens.")
 	uxUpdateStoredEnergy(mon)
 	uxUpdateInputStoredEnergy(mon)
 	uxUpdateOutputStoredEnergy(mon)
 
-	if peri.getFissionStoredEnergy() <= 2000000 and peri.getFissionOutputStoredEnergy() <= 2000000 and getSteam() and not getRod() then
+	if getFissionStoredEnergy() <= 2000000 and getFissionOutputStoredEnergy() <= 2000000 and getSteam() and not getRod() then
 		setFuel(true)
 	else
 		setFuel(false)

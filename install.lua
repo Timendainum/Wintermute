@@ -5,30 +5,30 @@
 ---------------------------------------------------
 -- functions
 ---------------------------------------------------
-function fsProtect(path, file)
+local function fsProtect(file)
 	-- make sure path exists
-	if (string.len(path) > 0) and not fs.isDir(path) then
+	local path = string.gsub(file, fs.getName(file), "")
+	if string.len(path) > 0 and not fs.isDir(path) then
 			fs.makeDir(path)
 	else
 		-- if file exists delete it
-		if fs.exists(path .. file) then
-			fs.delete(path .. file)
+		if fs.exists(file) then
+			fs.delete(file)
 		end
 	end
 end
 
-function installPre(path, file, code)
-	local fullPath = path .. file
-	print("Installing " .. fullPath)
-	fsProtect(path, file)
-	shell.run("github", code, fullPath)
+local function installPre(file, path)
+	print("Installing prerequisite: " .. file)
+	fsProtect(file)
+	shell.run("github", file, path)
 end
 
-function installPreAPI(path, file, code)
-	local fullPath = path .. file
-	installPre(path, file, code)
-	print("Loading " .. fullPath)
-	os.loadAPI(fullPath)
+local function installPreAPI(file, path)
+	print("Installing prerequisite API: " .. file)
+	installPre(file, path)
+	print("Loading " .. file)
+	os.loadAPI(file)
 end
 	
 ---------------------------------------------------
@@ -37,25 +37,21 @@ end
 print("Installing base system...")
 
 ---------------------------------------------------
-print("Installing installer perquisites...")
+print("Installing installer perequisites...")
 
-local path = "/"
+print("Installing github...")
 local file = "github"
-local fullPath = path .. file
 local code = "knix7nQp"
-fsProtect(path, file)
-shell.run("pastebin", "get", code, fullPath) 
+fsProtect(file)
+shell.run("pastebin", "get", code, file) 
 
-installPreAPI("/opt/lib/", "str", "Timendainum/Wintermute/master/opt/lib/str.lua")
-installPreAPI("/opt/lib/", "config", "Timendainum/Wintermute/master/opt/lib/config.lua")
+installPreAPI("opt/lib/txt", "Timendainum/Wintermute/master/opt/lib/txt.lua")
+installPreAPI("opt/lib/config", "Timendainum/Wintermute/master/opt/lib/config.lua")
 
 ---------------------------------------------------
-print("Installing installer...")
-path = "/opt/"
-file = "installer"
-fullPath = path .. file
+file = "opt/installer"
 code = "Timendainum/Wintermute/master/opt/installer.lua"
-installPre(path, file, code)
+installPre(file, code)
 
 ---------------------------------------------------
 --Executing installer

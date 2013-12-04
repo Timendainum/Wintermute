@@ -5,20 +5,20 @@
 ---------------------------------------------------
 -- functions
 ---------------------------------------------------
-function readConfig(path)
+function read(path)
 	local result = { }
 	if fs.exists(path) then
 		print("Reading config file " .. path)
 		local file = fs.open(path, "r")
 		repeat
 			line = file.readLine()
-			if(line == nil) then
+			if line == nil then
 				--print("Nil line.")
-			elseif str.startsWith(line, "--") then
+			elseif string.len(line) > 2 and string.sub(line, 1, 2) == "--" then
 				--print("Comment line.")
 			else
 				--print(line)
-				local lineTable = str.seperate(line, ";")
+				local lineTable = txt.split(line, ";")
 				result[lineTable[1]] = lineTable
 			end
 		until line == nil

@@ -5,10 +5,10 @@
 ---------------------------------------------------
 -- functions
 ---------------------------------------------------
-function fsProtect(file)
+local function fsProtect(file)
 	-- make sure path exists
 	local path = string.gsub(file, fs.getName(file), "")
-	if (string.len(path) > 0) and not fs.isDir(path) then
+	if string.len(path) > 0 and not fs.isDir(path) then
 			fs.makeDir(path)
 	else
 		-- if file exists delete it
@@ -18,13 +18,13 @@ function fsProtect(file)
 	end
 end
 
-function safePBGet(file, code)
+local function safePBGet(file, code)
 	print("Getting " .. file .. " from pastebin...")
 	fsProtect(file)
 	shell.run("pastebin", "get", code, file)	
 end
 
-function safeGHGet(file, path)
+local function safeGHGet(file, path)
 	print("Getting " .. file .. " from github...")
 	fsProtect(file)
 	shell.run("github", path, file)
@@ -39,16 +39,16 @@ local id = os.getComputerID()
 
 -- download config file
 print("Downloading computers config...")
-safeGHGet("etc/computers", "Timendainum/Wintermute/master/etc/computers.txt")
+safePBGet("etc/computers", "68GLky6A")
 
 -- read config file
-configComputers = config.readConfig("/etc/computers")
+local configComputers = config.readConfig("etc/computers")
 
 print("Downloading files config...")
-safeGHGet("etc/files", "Timendainum/Wintermute/master/etc/files.txt")
+safePBGet("etc/files", "4gY5mnLG")
 
 -- read config file
-configFiles = config.readConfig("/etc/files")
+local configFiles = config.readConfig("etc/files")
 
 print("Installing...")
 -- loop over files and install
