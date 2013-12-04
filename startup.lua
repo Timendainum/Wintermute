@@ -37,7 +37,7 @@ shell.run("modread")
 shell.run("netd")
 
 --if the computer is a router
-if thisConfig[3] ~= nil and str.contains(tostring(thisConfig[3]), "router") then
+if thisConfig[3] ~= nil and string.find(tostring(thisConfig[3]), "router") then
 	print("Starting routing...")
 	shell.run("routed")
 end
@@ -52,7 +52,7 @@ print("Starting fsd...")
 shell.run("/opt/fileserver/fsd")
 
 --if the computer is a nperi server
-if thisConfig[3] ~= nil and str.contains(thisConfig[3], "nperi") then
+if thisConfig[3] ~= nil and string.find(thisConfig[3], "nperi") then
 	print("Starting nperid...")
 	shell.run("opt/nperi/nperid")
 end
