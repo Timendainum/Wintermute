@@ -55,4 +55,4 @@ installPre(file, code)
 
 ---------------------------------------------------
 --Executing installer
-shell.run(fullPath)
+shell.run(file)
