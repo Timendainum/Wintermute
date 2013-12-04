@@ -162,14 +162,14 @@ print("Wrapping networked peripherals")
 for x = 1, 50 do
 	local name = "redstone_energy_cell_" .. tostring(x)
 	
-	while cells[x] == nil then
+	while cells[x] == nil do
 		cells[x] = nperi.wrap("powerperi", name)
 		if cells[x] == nil then
 			print(name .. " is nil! <CR> to try again!")
 			local junk = read()
+		else
+			write(".")
 		end
-	else
-		write(".")
 	end
 end
 print(" done!")
