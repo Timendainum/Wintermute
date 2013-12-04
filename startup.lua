@@ -49,12 +49,12 @@ print("Network initialized.")
 ----------------------------------------
 -- start additional daemons
 print("Starting fsd...")
-shell.run("/opt/fileserver/fsd")
+shell.run("/opt/servers/fsd")
 
 --if the computer is a nperi server
 if thisConfig[3] ~= nil and string.find(thisConfig[3], "nperi") then
 	print("Starting nperid...")
-	shell.run("opt/nperi/nperid")
+	shell.run("opt/servers/nperid")
 end
 
 -- run server startup script
