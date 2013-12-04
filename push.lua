@@ -2,7 +2,7 @@
 -- by Timendainum
 -- based on script by Lyqyd
 ---------------------------------------------------
-
+-- automated fsclient
 ---------------------------------------------------
 -- declaraions
 local tArgs = {...}
@@ -10,7 +10,7 @@ local port = 21
 local timeout = 5
 local slp = 0.01
 --read files config
-local files = config.readConfig("/etc/files")
+local files = config.read("etc/files")
 ---------------------------------------------------
 -- functions
 ---------------------------------------------------
