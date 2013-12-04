@@ -17,9 +17,8 @@ shell.run("boot/apiloader", nil)
 
 ----------------------------------------
 -- read config file
-configComputers = config.readConfig("/etc/computers")
---textutils.pagedTabulate(configComputers)
-thisConfig = { }
+local configComputers = config.read("etc/computers")
+local thisConfig = { }
 
 ----------------------------------------
 -- label computer
@@ -48,18 +47,6 @@ print("Network initialized.")
 
 
 ----------------------------------------
---conditional based on computer
--- load peripheral api
-if thisConfig[4] ~= nil and string.len(thisConfig[4]) > 0  then
-	print("Loading computer specific peri API... " .. thisConfig[4])
-	if fs.exists(thisConfig[5]) then  
-		os.loadAPI(thisConfig[4])
-	else
-		print("Unable to find " .. thisConfig[4])
-	end
-end
-
-----------------------------------------
 -- start additional daemons
 print("Starting fsd...")
 shell.run("/opt/fileserver/fsd")
@@ -71,10 +58,10 @@ if thisConfig[3] ~= nil and str.contains(thisConfig[3], "nperi") then
 end
 
 -- run server startup script
-if thisConfig[5] ~= nil and string.len(thisConfig[5]) > 0 then
-	print("Running computer specific startup... " .. thisConfig[5])
-	if fs.exists(thisConfig[5]) then
-		shell.run(thisConfig[5])
+if thisConfig[4] ~= nil and string.len(thisConfig[4]) > 0 then
+	print("Running computer specific startup... " .. thisConfig[4])
+	if fs.exists(thisConfig[4]) then
+		shell.run(thisConfig[4])
 	else
 		print("Unable to find " .. thisConfig[5])
 	end
