@@ -5,6 +5,9 @@
 ----------------------------------------
 -- declarations
 local id = tostring(os.getComputerID())
+-- global configs
+configComputers = {}
+configFiles = {}
 
 ----------------------------------------
 -- boot sequence
@@ -17,7 +20,8 @@ shell.run("boot/apiloader", nil)
 
 ----------------------------------------
 -- read config file
-local configComputers = config.read("etc/computers")
+configComputers = config.read("etc/computers")
+configFiles = config.read("etc/files")
 local thisConfig = { }
 
 ----------------------------------------
