@@ -171,9 +171,8 @@ for x = 1, 50 do
 end
 print(" done!")
 
-
 --update mon loop
-while 1 do
+while true do
 	updateFissionStoredEnergy()
 	print("Updating screens.")
 	uxUpdateStoredEnergy(mon)
