@@ -161,10 +161,13 @@ mon.write("---------------------------------------")
 print("Wrapping networked peripherals")
 for x = 1, 50 do
 	local name = "redstone_energy_cell_" .. tostring(x)
-	cells[x] = nperi.wrap("powerperi", name)
-	if cells[x] == nil then
-		print(name .. " is nil! <CR>")
-		local junk = read()
+	
+	while cells[x] == nil then
+		cells[x] = nperi.wrap("powerperi", name)
+		if cells[x] == nil then
+			print(name .. " is nil! <CR> to try again!")
+			local junk = read()
+		end
 	else
 		write(".")
 	end
