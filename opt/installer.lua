@@ -42,13 +42,13 @@ print("Downloading computers config...")
 safePBGet("etc/computers", "68GLky6A")
 
 -- read config file
-local configComputers = config.readConfig("etc/computers")
+local configComputers = config.read("etc/computers")
 
 print("Downloading files config...")
 safePBGet("etc/files", "4gY5mnLG")
 
 -- read config file
-local configFiles = config.readConfig("etc/files")
+local configFiles = config.read("etc/files")
 
 print("Installing...")
 -- loop over files and install

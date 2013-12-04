@@ -21,7 +21,7 @@ end
 local function installPre(file, path)
 	print("Installing prerequisite: " .. file)
 	fsProtect(file)
-	shell.run("github", file, path)
+	shell.run("github", path, file)
 end
 
 local function installPreAPI(file, path)
