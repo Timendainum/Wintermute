@@ -66,8 +66,8 @@ local function pushUpdateToServer(serverLabel)
 	write("Sending files to " .. serverLabel .. ".")
 	for k, v in pairs(files) do
 		sleep(slp)
-		local path = shell.resolve(str.replace(v[1], fs.getName(v[1]), ""))
-		local fullPath = shell.resolve(v[1])
+		local path = string.gsub(v[1], fs.getName(v[1]), "") 
+		local fullPath = v[1]
 		--try to create remote directory
 		-- (this will happen a lot, may want to detect for it and create it conditionally)
 		if path ~= "/" and path ~= "" then
