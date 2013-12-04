@@ -63,7 +63,11 @@ function nPeriDaemon ()
 									table.insert(tArgs, v)
 								end
 							end
+    						if peripheral.getType() == "sensor" then
+    							safeSend(conn, "data", sensor.call(tMessage[2], tMessage[3], unpack(tArgs)))
+    						else
     							safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
+    						end
 						else
 							safeSend(conn, "response", "Invalid arguments.")
 						end

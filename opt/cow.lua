@@ -1,6 +1,6 @@
 -- cow control program
 
-local sensor = nperi.wrap("cowsensor2", "top")
+local cowSensor = nperi.wrap("cowsensor2", "top")
 local cows = {}
 
 local function updateCows()
@@ -15,7 +15,7 @@ local function updateCows()
 	else
 		print("Unable to update cows, sensor result nil.")
 	end
-end 
+end
 
 local function countCows()
 	if cows == nil then
@@ -30,7 +30,6 @@ local function countCows()
 end
 
 --
-
 while true do
 	updateCows()
 	txt.sPrint("There are ", countCows(), " cows in the farm.")
