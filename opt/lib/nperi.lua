@@ -15,6 +15,7 @@ local maxRetrys = 3
 -- local functions
 ---------------------------------------------
 local function connectToServer(server)
+	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	sleep(slp)
 	if not serverConnections[server] then
 		--txt.sPrint("Attempting to connect to ", server, " on port ", port)
@@ -36,6 +37,8 @@ local function connectToServer(server)
 end
 
 local function safeSend(server, mType, ...)
+	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
+	assert (type(mType) == "string" and string.len(mType) > 0, "invalid message type")
 	if connectToServer(server) then
 		return nets.send(serverConnections[server], mType, ...)
 	else
@@ -44,6 +47,7 @@ local function safeSend(server, mType, ...)
 end
 
 local function gatherResponse(server)
+	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	--print("Awaiting result...")
 	local messType, tMessage = nil, nil, nil
 	messType, tMessage = nets.awaitResponse(serverConnections[server], timeout)
@@ -75,6 +79,7 @@ end
 
 
 local function closeConnection(server)
+	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	if connection.close(serverConnections[server]) then
 		safeSend(server, "close", "close")
 		serverConnection = false
