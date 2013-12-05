@@ -55,7 +55,7 @@ function nPeriDaemon ()
 							safeSend(conn, "response", "Invalid arguments.")
 						end
 					elseif tMessage[1] == "call" then
-						print("processing call request")
+						txt.sPrint("processing call request: ", tMessage[2], " " ,tMessage[3])
 						if tMessage[2] and tMessage[3] then
 							local tArgs = { }
 							for k,v in ipairs(tMessage) do
@@ -71,6 +71,7 @@ function nPeriDaemon ()
     							safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
     						end
 						else
+							print("invalid arguments")
 							safeSend(conn, "response", "Invalid arguments.")
 						end
 					elseif tMessage[1] == "getNames" then
