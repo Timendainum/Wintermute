@@ -58,17 +58,27 @@ function nPeriDaemon ()
 						txt.sPrint("processing call request: ", tMessage[2], " " ,tMessage[3])
 						if tMessage[2] and tMessage[3] then
 							local tArgs = { }
+							local bArgs = false
 							for k,v in ipairs(tMessage) do
 								if k > 3 then
 									table.insert(tArgs, v)
+									bArgs = true
 								end
 							end
     						if peripheral.getType() == "sensor" then
     							print("Processing sensor call..")
-    							safeSend(conn, "data", sensor.call(tMessage[2], tMessage[3], unpack(tArgs)))
+    							if bArgs then
+    								safeSend(conn, "data", sensor.call(tMessage[2], tMessage[3], unpack(tArgs)))
+    							else
+    								safeSend(conn, "data", sensor.call(tMessage[2], tMessage[3]))
+    							end
     						else
     							print("Processing peripheral call..")
-    							safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
+    							if bArgs then
+    								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
+    							else
+    								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3]))
+    							end
     						end
 						else
 							print("invalid arguments")
