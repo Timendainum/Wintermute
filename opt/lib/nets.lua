@@ -29,7 +29,7 @@ local function processMessage(raw)
 	if raw == nil then
 		tMessage = nil
 	elseif string.len(raw) > 2 and string.sub(raw, 1, 1) == "{" and string.sub(raw, -1) == "}" then
-		local tResult = textutils.unserialize(raw)
+		local tResult = serial.unserialize(raw)
 		if tResult[1] then
 			tMessage = tResult
 		else
@@ -57,7 +57,7 @@ function send(conn, messageType, ...)
 	--txt.sPrint("send called: conn: ", conn, "  messageType: ",messageType, ...)
 	if conn then
 		local tSData = {...}
-		local result = textutils.serialize(tSData)
+		local result = serial.serialize(tSData)
 		--txt.sPrint("nets.send(): Sending serialized data: ",  result)
 		return connection.send(conn, messageType, result)
 	else

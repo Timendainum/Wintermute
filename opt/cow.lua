@@ -56,7 +56,7 @@ local tt = p.getTargets()
 txt.sPrint(tt)
 
 if tt ~= nil then
-	print(textutils.serialize(tt))
+	print(serial.serialize(tt))
 else
 	print("getMethods nil")
 end
