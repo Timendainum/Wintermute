@@ -65,6 +65,14 @@ function nPeriDaemon ()
 									bArgs = true
 								end
 							end
+    						if peripheral.getType(tMessage[2]) == "sensor" then
+    							print("Processing sensor call..")
+   								safeSend(conn, "data", sensor.call(tMessage[2], tMessage[3], unpack(tArgs)))
+    						else
+    							print("Processing peripheral call..")
+   								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
+    						end
+    						--[[
     						if peripheral.getType() == "sensor" then
     							print("Processing sensor call..")
     							if bArgs then
@@ -80,6 +88,7 @@ function nPeriDaemon ()
     								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3]))
     							end
     						end
+    						]]--
 						else
 							print("invalid arguments")
 							safeSend(conn, "response", "Invalid arguments.")
