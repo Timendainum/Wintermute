@@ -34,3 +34,36 @@ while true do
 	updateCows()
 	txt.sPrint("There are ", countCows(), " cows in the farm.")
 end
+
+
+
+
+
+
+-- test
+txt.sPrint("IsPresent: ", peripheral.isPresent("top"))
+local p = sensor.wrap("top")
+txt.sPrint("Wrap: ", p)
+local tm = peripheral.getMethods("top")
+if tm ~= nil then
+	textutils.tabulate(tm)
+else
+	print("getMethods nil")
+end
+
+local tt = p.getTargets()
+
+txt.sPrint(tt)
+
+if tt ~= nil then
+	print(textutils.serialize(tt))
+else
+	print("getMethods nil")
+end
+
+
+
+
+
+
+

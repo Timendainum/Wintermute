@@ -4,6 +4,7 @@
 --load APIs
 os.loadAPI("opt/lib/debug")
 os.loadAPI("opt/lib/txt")
+os.loadAPI("opt/lib/serial")
 os.loadAPI("opt/lib/config")
 
 --LyqydNet
