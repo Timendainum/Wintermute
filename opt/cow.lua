@@ -33,7 +33,7 @@ end
 ------------------------------------------
 --
 --
-txt.sPrint("IsPresent: ", nperi.isPresent(side))
+txt.sPrint("IsPresent: ", nperi.isPresent(server, side))
 local p = nperi.wrap(server, side)
 txt.sPrint("Wrap: ", p)
 local tm = nperi.getMethods(server, side)

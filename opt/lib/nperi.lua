@@ -18,7 +18,7 @@ local function connectToServer(server)
 	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	sleep(slp)
 	if not serverConnections[server] then
-		--txt.sPrint("Attempting to connect to ", server, " on port ", port)
+		txt.sPrint("Attempting to connect to ", server, " on port ", port)
 		-- attempt to connect
 		local myConn, response = connection.open(server, port, timeout)
 		if not myConn then
@@ -26,12 +26,12 @@ local function connectToServer(server)
 			serverConnections[server], response = false, false
 			return false
 		else
-			--txt.sPrint("--Connected to ", server, " Response: ", response)
+			txt.sPrint("--Connected to ", server, " Response: ", response)
 			serverConnections[server] = myConn
 			return true
 		end
 	else
-		--print("Server already connected!")
+		print("Server already connected!")
 		return true
 	end
 end
@@ -48,7 +48,7 @@ end
 
 local function gatherResponse(server)
 	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
-	--print("Awaiting result...")
+	print("Awaiting result...")
 	local messType, tMessage = nil, nil, nil
 	messType, tMessage = nets.awaitResponse(serverConnections[server], timeout)
 
@@ -60,11 +60,11 @@ local function gatherResponse(server)
 	-- process message
 	if messType == "close" then
 		-- close
-		--txt.sPrint("Server responded with close: ", tMessage[1])
+		txt.sPrint("Server responded with close: ", tMessage[1])
 		return false
 	elseif messType == "data" then
 		-- data
-		--txt.sPrint("Server responded with data: ", tMessage[1])
+		txt.sPrint("Server responded with data: ", tMessage[1])
 		return unpack(tMessage)
 	elseif messType == "response" then
 		-- response
@@ -83,10 +83,10 @@ local function closeConnection(server)
 	if connection.close(serverConnections[server]) then
 		safeSend(server, "close", "close")
 		serverConnection = false
-		--print("--Connection Closed.")
+		print("--Connection Closed.")
 		return true
 	else
-		--print("--Could not close connection!")
+		print("--Could not close connection!")
 		return false
 	end
 end
@@ -106,7 +106,7 @@ function isPresent(server, side)
 	local bResult = false
 
 	-- request
-	--print("Requesting isPresent()")
+	print("Requesting isPresent()")
 	if safeSend(server, "instruction", "isPresent", side) then
 		bResult = gatherResponse(server)
 	end
@@ -119,7 +119,7 @@ function getType(server, side)
 	local sResult = false
 
 	-- request
-	--print("Requesting getType()")
+	print("Requesting getType()")
 	if safeSend(server, "instruction", "getType", side) then
 		sResult = gatherResponse(server)
 	end
@@ -132,7 +132,7 @@ function getMethods(server,  side)
 	local tResult = { }
 
 	-- request
-	--print("Requesting getMethods()")
+	print("Requesting getMethods()")
 	if safeSend(server, "instruction", "getMethods", side) then
 		tResult = gatherResponse(server)
 	end
@@ -145,7 +145,7 @@ function call(server, side, method, ...)
 	local result = nil
 
 	-- request
-	--print("Requesting call()")
+	print("Requesting call()")
 	if safeSend(server, "instruction", "call", side, method, ...) then
 		result = { gatherResponse(server) }
 	else
@@ -174,7 +174,7 @@ function getNames(server)
 	local tResult = { }
 
 	-- request
-	--print("Requesting getNames()")
+	print("Requesting getNames()")
 	if safeSend(server, "instruction", "getNames") then
 		tResult = gatherResponse(server)
 	end
