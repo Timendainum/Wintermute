@@ -9,7 +9,7 @@
 ---------------------------------------------------
 -- local functions
 local function processMessageType(raw)
-	--txt.sPrint("processMessageType called: ", eaw)
+	debug.log(50, "processMessageType called: ", raw)
 	local result = "nil"
 	if raw ~= nil then
 		if type(raw) == "string" then
@@ -18,12 +18,12 @@ local function processMessageType(raw)
 			result = "invalid"
 		end
 	end
-	--txt.sPrint("processMessageType done: ", result)
+	debug.log(50, "processMessageType done: ", result)
 	return result
 end
 
 local function processMessage(raw)
-	--txt.sPrint("processMessage called: ", raw)
+	debug.log(50, "processMessage called: ", raw)
 	local tMessage = {}
 	-- preprocess message --
 	if raw == nil then
@@ -44,7 +44,7 @@ local function processMessage(raw)
 	end
 	
 	-- handle response
-	--txt.sPrint("processMessage done: ", unpack(tMessage))
+	debug.log(50, "processMessage done: ", unpack(tMessage))
 
 	return tMessage
 end
@@ -54,23 +54,24 @@ end
 -- functions
 -- send
 function send(conn, messageType, ...)
-	--txt.sPrint("send called: conn: ", conn, "  messageType: ",messageType, ...)
+	debug.log(40, "send called: conn: ", conn, "  messageType: ",messageType, ...)
 	if conn then
 		local tSData = {...}
 		local result = serial.serialize(tSData)
-		--txt.sPrint("nets.send(): Sending serialized data: ",  result)
+		debug.log(50, "nets.send(): Sending serialized data: ",  result)
 		return connection.send(conn, messageType, result)
 	else
-		print("nets.send() failed, no connection to send.")
+		debug.log(1, "nets.send() failed, no connection to send.")
 		return false
 	end
 end
 
 -- awaitResponse
 function awaitResponse(conn, timeout)
-	--print("awaitResponse called: conn: ", conn, " timeout:" ,timeout)
+	debug.log(40, "awaitResponse called: conn: ", conn, " timeout:", timeout)
 	if conn then
 		local rawMessType, messType, rawMessage, tMessage = nil, "nil", nil, nil
+		debug.log(50, "nets.awaitResponse() Awaiting server response...")
 		rawMessType, rawMessage = connection.awaitResponse(conn, timeout)
 
 		-- preprocess messType
@@ -79,17 +80,19 @@ function awaitResponse(conn, timeout)
 		tMessage = processMessage(rawMessage)
 		
 		-- handle response
+		debug.log(50, "Server responded with messType: ", messType, " tMessage: ", tMessage)
 		return messType, tMessage
 	else
-		print("nets.awaitResponse() failed, no connection to await.")
+		debug.log(1, "nets.awaitResponse() failed, no connection to await.")
 		return false
 	end
 end
 
 -- listenIdle()
 function listenIdle(port)
-	--print("listenIdle called...")
+	debug.log(40, "listenIdle called...")
 	local conn, rawMessType, messType, rawMessage, tMessage = nil, nil, "nil", nil, {}
+	debug.log(50, "nets.listenIdle()  listening...")
 	conn, rawMessType, rawMessage = connection.listenIdle(port)
 	
 	-- preprocess messType
@@ -99,5 +102,6 @@ function listenIdle(port)
 	tMessage = processMessage(rawMessage)
 
 	-- handle response
+	debug.log(50, "Heard conn: ", conn, "messType: ", messType, " tMessage: ", tMessage)
 	return conn, messType, tMessage
 end

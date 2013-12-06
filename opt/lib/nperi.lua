@@ -41,17 +41,20 @@ local function safeSend(server, mType, ...)
 	assert (type(mType) == "string" and string.len(mType) > 0, "invalid message type")
 	
 	if connectToServer(server) then
-		debug.log(50, "sending serevr message: conn:", serverConnections[server], " mType: ", mType, "others: ", ...)
+		debug.log(50, "sending server message: conn:", serverConnections[server], " mType: ", mType, "others: ", ...)
 		return nets.send(serverConnections[server], mType, ...)
 	else
+		debug.log(50, "safeSend failed, no connection: server:", server, " mType: ", mType, "others: ", ...)
 		return false
 	end
 end
 
 local function gatherResponse(server)
 	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
-	debug.log(30, "Awaiting server response...")
+
 	local messType, tMessage = nil, nil, nil
+
+	debug.log(30, "Awaiting server response...")
 	messType, tMessage = nets.awaitResponse(serverConnections[server], timeout)
 
 	-- preprocess message --
@@ -86,10 +89,10 @@ local function closeConnection(server)
 	if connection.close(serverConnections[server]) then
 		safeSend(server, "close", "close")
 		serverConnection = false
-		debug.log(20, "--Connection Closed.")
+		debug.log(20, "--Connection Closed server: ", server)
 		return true
 	else
-		debug.log(10, "--Could not close connection!")
+		debug.log(10, "--Could not close connection to :", server)
 		return false
 	end
 end
@@ -99,6 +102,7 @@ end
 ---------------------------------------------
 
 function closeAllConnections()
+	debug.log(20, "Closing all connections.")
 	for k,v in pairs(serverConnections) do
 		closeConnection(k)
 	end
@@ -114,6 +118,7 @@ function isPresent(server, side)
 		bResult = gatherResponse(server)
 	end
 
+	debug.log(50, "isPresent result: ", bResult)
 	return bResult
 end
 
@@ -127,6 +132,7 @@ function getType(server, side)
 		sResult = gatherResponse(server)
 	end
 	
+	debug.log(50, "getType result: ", sResult)
 	return sResult
 end
 
@@ -140,6 +146,7 @@ function getMethods(server,  side)
 		tResult = gatherResponse(server)
 	end
 
+	debug.log(50, "getMethods result: ", tResult)
 	return tResult
 end
 
@@ -152,9 +159,10 @@ function call(server, side, method, ...)
 	if safeSend(server, "instruction", "call", side, method, ...) then
 		result = { gatherResponse(server) }
 	else
-		return nil
+		result =  nil
 	end
 
+	debug.log(50, "call result: ", result)
 	return unpack(result)
 end
 
@@ -168,7 +176,10 @@ function wrap(server,  side)
 				return call(server, side, method, ...)
 			end
 		end
+		debug.log(50, "wrap result: ", tResult)
 		return tResult
+	else
+		debug.log(50, "wrap() failed, ", side, " is not present on ", server, ".")
 	end
 	return nil
 end
@@ -182,6 +193,6 @@ function getNames(server)
 	if safeSend(server, "instruction", "getNames") then
 		tResult = gatherResponse(server)
 	end
-
+	debug.log(50, "getNames result: ", tResult)
 	return tResult
 end

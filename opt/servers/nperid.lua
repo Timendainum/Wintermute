@@ -24,14 +24,15 @@ function nPeriDaemon ()
 
 	while true do
 		local conn, messType, tMessage = nets.listenIdle(port)
-		debug.log(30, "Recieved wakeup...", conn, messType, unpack(tMessage))
+		debug.log(30, "Recieved wakeup conn: ", conn," messType: ", messType, " others: ", unpack(tMessage))
 		if connections[conn] and connections[conn].status == "open" then
+			debug.log(50, "Connection is open, processing message.")
 			if messType == "close" then
-				debug.log(20, "Received close.")
+				debug.log(20, "Received close message, closing connection conn:", conn)
 				connection.close(conn, disconnect, true)
 				connections[conn].status = "closed"
 			elseif messType == "instruction" then
-				debug.log(30, "Received instruction: ", unpack(tMessage))
+				debug.log(30, "Received instruction: conn:", conn, " message: ", unpack(tMessage))
 				-- parse message
 				if tMessage[1] then
 					if tMessage[1] == "isPresent" then
@@ -58,11 +59,13 @@ function nPeriDaemon ()
 					elseif tMessage[1] == "call" then
 						debug.log(40, "processing call request: ", tMessage[2], " " ,tMessage[3])
 						if tMessage[2] and tMessage[3] then
+							debug.log(50, "side: ", tMessage[2], " function: " ,tMessage[3])
 							local tArgs = { }
 							local bArgs = false
 							for k,v in ipairs(tMessage) do
 								if k > 3 then
 									table.insert(tArgs, v)
+									debug.log(60, "Adding additional argument.")
 									bArgs = true
 								end
 							end

@@ -1,6 +1,6 @@
 -- debug api
 --------------------------------------------
-local debugSeverity = 10
+local debugSeverity = 64
 -- 0 	completely silent
 -- 1 	Error
 -- 10	Warning -- default
@@ -14,7 +14,7 @@ local debugSeverity = 10
 function log(severity, ...)
 	severity = tonumber(severity)
 	assert (type(severity) == "number" and severity >= 0 and severity <= 64, "invalid severity")
-	if debugSeverity <= severity then
+	if debugSeverity >= severity then
 		txt.sPrint(...)
 	end
 end
