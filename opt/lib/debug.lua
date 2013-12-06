@@ -12,6 +12,7 @@ local debugSeverity = 10
 -- 64	Deepest Logic Possible
 
 function log(severity, ...)
+	severity = tonumber(severity)
 	assert (type(severity) == "number" and severity >= 0 and severity <= 64, "invalid severity")
 	if debugSeverity <= severity then
 		txt.sPrint(...)
