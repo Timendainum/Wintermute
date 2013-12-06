@@ -18,20 +18,20 @@ local function connectToServer(server)
 	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	sleep(slp)
 	if not serverConnections[server] then
-		txt.sPrint("Attempting to connect to ", server, " on port ", port)
+		debug.log(20, "Attempting to connect to ", server, " on port ", port)
 		-- attempt to connect
 		local myConn, response = connection.open(server, port, timeout)
 		if not myConn then
-			txt.sPrint("--Connection to ", server, " Failed!")
+			debug.log(1, "--Connection to ", server, " Failed!")
 			serverConnections[server], response = false, false
 			return false
 		else
-			txt.sPrint("--Connected to ", server, " Response: ", response)
+			debug.log(20, "--Connected to ", server, " Response: ", response)
 			serverConnections[server] = myConn
 			return true
 		end
 	else
-		print("Server already connected!")
+		debug.log(10, "Server already connected!")
 		return true
 	end
 end
@@ -39,7 +39,9 @@ end
 local function safeSend(server, mType, ...)
 	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	assert (type(mType) == "string" and string.len(mType) > 0, "invalid message type")
+	
 	if connectToServer(server) then
+		debug.log(50, "sending serevr message: conn:", serverConnections[server], " mType: ", mType, "others: ", ...)
 		return nets.send(serverConnections[server], mType, ...)
 	else
 		return false
@@ -48,7 +50,7 @@ end
 
 local function gatherResponse(server)
 	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
-	print("Awaiting result...")
+	debug.log(30, "Awaiting server response...")
 	local messType, tMessage = nil, nil, nil
 	messType, tMessage = nets.awaitResponse(serverConnections[server], timeout)
 
@@ -60,18 +62,19 @@ local function gatherResponse(server)
 	-- process message
 	if messType == "close" then
 		-- close
-		txt.sPrint("Server responded with close: ", tMessage[1])
+		debug.log(10, "Server responded with close: ", tMessage[1])
 		return false
 	elseif messType == "data" then
 		-- data
-		txt.sPrint("Server responded with data: ", tMessage[1])
+		debug.log(40, "Server responded with data: ", tMessage[1])
 		return unpack(tMessage)
 	elseif messType == "response" then
 		-- response
-		txt.sPrint("Server responded with response: ", tMessage[1])
+		debug.log(30, "Server responded with response: ", tMessage[1])
 		return false
 	else
 		-- anything else - invalid response
+		debug.log(30, "Invalid server response: ", tMessage[1])
 		return false
 	end
 end
@@ -83,10 +86,10 @@ local function closeConnection(server)
 	if connection.close(serverConnections[server]) then
 		safeSend(server, "close", "close")
 		serverConnection = false
-		print("--Connection Closed.")
+		debug.log(20, "--Connection Closed.")
 		return true
 	else
-		print("--Could not close connection!")
+		debug.log(10, "--Could not close connection!")
 		return false
 	end
 end
@@ -106,7 +109,7 @@ function isPresent(server, side)
 	local bResult = false
 
 	-- request
-	print("Requesting isPresent()")
+	debug.log(30, "Requesting isPresent()")
 	if safeSend(server, "instruction", "isPresent", side) then
 		bResult = gatherResponse(server)
 	end
@@ -119,7 +122,7 @@ function getType(server, side)
 	local sResult = false
 
 	-- request
-	print("Requesting getType()")
+	debug.log(30, "Requesting getType()")
 	if safeSend(server, "instruction", "getType", side) then
 		sResult = gatherResponse(server)
 	end
@@ -132,7 +135,7 @@ function getMethods(server,  side)
 	local tResult = { }
 
 	-- request
-	print("Requesting getMethods()")
+	debug.log(30, "Requesting getMethods()")
 	if safeSend(server, "instruction", "getMethods", side) then
 		tResult = gatherResponse(server)
 	end
@@ -145,7 +148,7 @@ function call(server, side, method, ...)
 	local result = nil
 
 	-- request
-	print("Requesting call()")
+	debug.log(30, "Requesting call()")
 	if safeSend(server, "instruction", "call", side, method, ...) then
 		result = { gatherResponse(server) }
 	else
@@ -156,6 +159,7 @@ function call(server, side, method, ...)
 end
 
 function wrap(server,  side)
+	debug.log(30, "Starting wrap()")
 	if isPresent(server, side) then
 		local tMethods = getMethods(server, side)
 		local tResult  = { }
@@ -174,7 +178,7 @@ function getNames(server)
 	local tResult = { }
 
 	-- request
-	print("Requesting getNames()")
+	debug.log(30, "Requesting getNames()")
 	if safeSend(server, "instruction", "getNames") then
 		tResult = gatherResponse(server)
 	end

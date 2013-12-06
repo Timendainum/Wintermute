@@ -13,49 +13,50 @@ local port = 88
 
 function nPeriDaemon ()
 	local function safeSend(theConnection, mType, ...)
+		debug.log(50, "safeSend called: conn:", theConnection, " mType: ", mType, "others:", ...)
 		if connections[theConnection] then
 			return nets.send(theConnection, mType, ...)
 		else
-			print("No connection to send!")
+			debug.log(1, "No connection to send!")
 			return false
 		end
 	end
 
 	while true do
 		local conn, messType, tMessage = nets.listenIdle(port)
-		txt.sPrint("Recieved wakeup...", conn, messType, unpack(tMessage))
+		debug.log(30, "Recieved wakeup...", conn, messType, unpack(tMessage))
 		if connections[conn] and connections[conn].status == "open" then
 			if messType == "close" then
-				print("Received close.")
+				debug.log(20, "Received close.")
 				connection.close(conn, disconnect, true)
 				connections[conn].status = "closed"
 			elseif messType == "instruction" then
-				txt.sPrint("Received instruction: ", unpack(tMessage))
+				debug.log(30, "Received instruction: ", unpack(tMessage))
 				-- parse message
 				if tMessage[1] then
 					if tMessage[1] == "isPresent" then
-						print("Processing isPresent request")
+						debug.log(40, "Processing isPresent request")
 						if tMessage[2] then
 							safeSend(conn, "data", peripheral.isPresent(tMessage[2]))
 						else
 							safeSend(conn, "response", "Invalid arguments.")
 						end
 					elseif tMessage[1] == "getType" then
-						print("Processing getType request")
+						debug.log(40, "Processing getType request")
 						if tMessage[2] then
 							safeSend(conn, "data", peripheral.getType(tMessage[2]))
 						else
 							safeSend(conn, "response", "Invalid arguments.")
 						end
 					elseif tMessage[1] == "getMethods" then
-						print("processing getMethods request")
+						debug.log(40, "processing getMethods request")
 						if tMessage[2] then
     							safeSend(conn, "data", peripheral.getMethods(tMessage[2]))
 						else
 							safeSend(conn, "response", "Invalid arguments.")
 						end
 					elseif tMessage[1] == "call" then
-						txt.sPrint("processing call request: ", tMessage[2], " " ,tMessage[3])
+						debug.log(40, "processing call request: ", tMessage[2], " " ,tMessage[3])
 						if tMessage[2] and tMessage[3] then
 							local tArgs = { }
 							local bArgs = false
@@ -75,14 +76,14 @@ function nPeriDaemon ()
     						end
     						]]--
     						if peripheral.getType(tMessage[2]) == "sensor" then
-    							print("Processing sensor call..")
+    							debug.log(40, "Processing sensor call..")
     							if bArgs then
     								safeSend(conn, "data", sensor.call(tMessage[2], tMessage[3], unpack(tArgs)))
     							else
     								safeSend(conn, "data", sensor.call(tMessage[2], tMessage[3]))
     							end
     						else
-    							print("Processing peripheral call..")
+    							debug.log(40, "Processing peripheral call..")
     							if bArgs then
     								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
     							else
@@ -91,27 +92,28 @@ function nPeriDaemon ()
     						end
     						
 						else
-							print("invalid arguments")
+							debug.log(40, "invalid arguments")
 							safeSend(conn, "response", "Invalid arguments.")
 						end
 					elseif tMessage[1] == "getNames" then
-						print("processing getNames request")
+						debug.log(40, "processing getNames request")
 						safeSend(conn, "data", peripheral.getNames())
 					elseif tMessage[1] == "stop" then
-						print("received stop")
+						debug.log(40, "received stop")
 						return true
 					else
-						print("Invalid command")
+						debug.log(40, "Invalid command")
 						safeSend(conn, "response", "Invalid command.")
 					end
 				else
-					txt.sPrint("Invalid instruction: ", unpack(tMessage))
+					
+					debug.log(30, "Invalid instruction: ", unpack(tMessage))
 					safeSend(conn, "response", "Invalid instruction.")
 				end
 			end
 			safeSend(conn, "done", "ready")
 		elseif messType == "query" then
-				print("received query")
+				debug.log(20, "Received connection request.")
 				local connect = {}
 				connect.status = "open"
 				connect.name = connection.name(conn)
