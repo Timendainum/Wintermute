@@ -24,7 +24,7 @@ function getSeverity()
 end
 
 function setSeverity(severity)
+	severity = tonumber(severity)
+	assert (type(severity) == "number" and severity >= 0 and severity <= 64, "invalid severity")
 	debugSeverity = severity
 end
-
-
