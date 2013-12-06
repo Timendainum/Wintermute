@@ -72,9 +72,12 @@ function nPeriDaemon ()
 							
     						if peripheral.getType(tMessage[2]) == "sensor" then
     							debug.log(40, "Processing sensor call..")
-    							local tResult = {sensor.call(tMessage[2], tMessage[3], unpack(tArgs))}
-    							debug.log(40, "Sending result..")
-   								safeSend(conn, "data", unpack(tResult))
+    							--this is not going to work because it has an event it
+    							--local tResult = {sensor.call(tMessage[2], tMessage[3], unpack(tArgs))}
+    							debug.log(40, "Running external proxy to handle result...")
+    							shell.run("opt/nperiOCSproxy", conn, tMessage[2], tMessage[3], tArgs)
+    							--debug.log(40, "Sending result..")
+   								--safeSend(conn, "data", unpack(tResult))
     						else
     							debug.log(40, "Processing peripheral call..")
    								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
