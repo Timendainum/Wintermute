@@ -75,7 +75,8 @@ function nPeriDaemon ()
     							--this is not going to work because it has an event it
     							--local tResult = {sensor.call(tMessage[2], tMessage[3], unpack(tArgs))}
     							debug.log(40, "Running external proxy to handle result...")
-    							shell.run("opt/nperiOCSproxy", conn, tMessage[2], tMessage[3], tArgs)
+    							os.run({ debug, sensor, nets, txt, nperi }, "opt/nperiOCSproxy", conn, tMessage[2], tMessage[3], tArgs)
+    							--shell.run(
     							--debug.log(40, "Sending result..")
    								--safeSend(conn, "data", unpack(tResult))
     						else
