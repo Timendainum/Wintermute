@@ -61,25 +61,28 @@ function nPeriDaemon ()
 						if tMessage[2] and tMessage[3] then
 							debug.log(50, "side: ", tMessage[2], " function: " ,tMessage[3])
 							local tArgs = { }
-							local bArgs = false
+							--local bArgs = false
 							for k,v in ipairs(tMessage) do
 								if k > 3 then
 									table.insert(tArgs, v)
 									debug.log(60, "Adding additional argument.")
-									bArgs = true
+									--bArgs = true
 								end
 							end
-							--[[
-    						if peripheral.getType(tMessage[2]) == "sensor" then
-    							print("Processing sensor call..")
-   								safeSend(conn, "data", sensor.call(tMessage[2], tMessage[3], unpack(tArgs)))
-    						else
-    							print("Processing peripheral call..")
-   								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
-    						end
-    						]]--
+							
     						if peripheral.getType(tMessage[2]) == "sensor" then
     							debug.log(40, "Processing sensor call..")
+    							local tResult = {sensor.call(tMessage[2], tMessage[3], unpack(tArgs))}
+    							debug.log(40, "Sending result..")
+   								safeSend(conn, "data", unpack(tResult))
+    						else
+    							debug.log(40, "Processing peripheral call..")
+   								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
+    						end
+    						
+    						--[[
+    						if peripheral.getType(tMessage[2]) == "sensor" then
+    							
     							if bArgs then
     								safeSend(conn, "data", sensor.call(tMessage[2], tMessage[3], unpack(tArgs)))
     							else
@@ -93,6 +96,7 @@ function nPeriDaemon ()
     								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3]))
     							end
     						end
+    						]]--
     						
 						else
 							debug.log(40, "invalid arguments")

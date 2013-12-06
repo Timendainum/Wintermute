@@ -2,6 +2,9 @@
 -- by Timendainum
 ---------------------------------------------------
 --load APIs
+if fs.exists("ocs/apis/sensor") then
+	os.loadAPI("ocs/apis/sensor")
+end
 os.loadAPI("opt/lib/debug")
 os.loadAPI("opt/lib/txt")
 os.loadAPI("opt/lib/serial")
@@ -17,6 +20,3 @@ os.loadAPI("opt/lib/file")
 os.loadAPI("opt/lib/nets")
 os.loadAPI("opt/lib/nperi")
 os.loadAPI("opt/lib/peri")
-if fs.exists("ocs/apis/sensor") then
-	os.loadAPI("ocs/apis/sensor")
-end
