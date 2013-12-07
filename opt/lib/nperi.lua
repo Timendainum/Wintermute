@@ -6,10 +6,12 @@
 ---------------------------------------------
 local port = 88
 local timeout = 5
-local serverConnections = {}
 local response = false
 local slp = 0.0001
 local maxRetrys = 3
+
+-- global
+serverConnections = {}
 
 ---------------------------------------------
 -- local functions

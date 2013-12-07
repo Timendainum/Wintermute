@@ -31,7 +31,7 @@ switches.slaughter = colors.pink
 
 
 -- wrap network sensor
-while not nperi.connect(server) then
+while not nperi.connect(server) do
 	debug.log(1, "Unable to connect to ", server, ".")
 	sleep(1)
 end
