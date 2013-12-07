@@ -20,7 +20,7 @@ local function safeSend(server, mType, ...)
 	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	assert (type(mType) == "string" and string.len(mType) > 0, "invalid message type")
 	
-	if not serverConnections[server] then
+	if serverConnections[server] then
 		debug.log(50, "sending server message: conn:", serverConnections[server], " mType: ", mType, "others: ", ...)
 		return nets.send(serverConnections[server], mType, ...)
 	else
