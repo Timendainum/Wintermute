@@ -8,7 +8,7 @@ local function updateCows()
 	local tResults = cowSensor.getTargets()
 	if tResults ~= nil then
 		cows = {}
-		for k,v in pairs do
+		for k,v in pairs(tResults) do
 			if type(k) == "string" and string.len(k) > 3 and string.sub(k, 1, 3) == "Cow" then
 				cows[k] = v
 			end
