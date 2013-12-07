@@ -56,7 +56,7 @@ print("Starting fsd...")
 shell.run("/opt/servers/fsd")
 
 --if the computer is a nperi server
-if thisConfig[3] ~= nil and string.find(thisConfig[3], "nperi") then
+if thisConfig[3] == "nperi" then
 	print("Starting nperid...")
 	shell.run("opt/servers/nperid")
 end
@@ -69,4 +69,10 @@ if thisConfig[4] ~= nil and string.len(thisConfig[4]) > 0 then
 	else
 		print("Unable to find " .. thisConfig[5])
 	end
+end
+
+--if the computer is a nperi server
+if thisConfig[3] == "nperis" then
+	print("Starting nperis...")
+	shell.run("opt/servers/nperis")
 end

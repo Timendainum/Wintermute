@@ -105,3 +105,21 @@ function listenIdle(port)
 	debug.log(50, "Heard conn: ", conn, "messType: ", messType, " tMessage: ", tMessage)
 	return conn, messType, tMessage
 end
+
+-- listenIdle()
+function listen(port)
+	debug.log(40, "listen called...")
+	local conn, rawMessType, messType, rawMessage, tMessage = nil, nil, "nil", nil, {}
+	debug.log(50, "nets.listen()  listening...")
+	conn, rawMessType, rawMessage = connection.listen(port)
+	
+	-- preprocess messType
+	messType = processMessageType(rawMessType)
+
+	-- preprocess message --
+	tMessage = processMessage(rawMessage)
+
+	-- handle response
+	debug.log(50, "Heard conn: ", conn, "messType: ", messType, " tMessage: ", tMessage)
+	return conn, messType, tMessage
+end
