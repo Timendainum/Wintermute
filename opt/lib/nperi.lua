@@ -14,33 +14,11 @@ local maxRetrys = 3
 ---------------------------------------------
 -- local functions
 ---------------------------------------------
-local function connectToServer(server)
-	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
-	sleep(slp)
-	if not serverConnections[server] then
-		debug.log(20, "Attempting to connect to ", server, " on port ", port)
-		-- attempt to connect
-		local myConn, response = connection.open(server, port, timeout)
-		if not myConn then
-			debug.log(1, "--Connection to ", server, " Failed!")
-			serverConnections[server], response = false, false
-			return false
-		else
-			debug.log(20, "--Connected to ", server, " Response: ", response)
-			serverConnections[server] = myConn
-			return true
-		end
-	else
-		debug.log(10, "Server already connected!")
-		return true
-	end
-end
-
 local function safeSend(server, mType, ...)
 	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	assert (type(mType) == "string" and string.len(mType) > 0, "invalid message type")
 	
-	if connectToServer(server) then
+	if not serverConnections[server] then
 		debug.log(50, "sending server message: conn:", serverConnections[server], " mType: ", mType, "others: ", ...)
 		return nets.send(serverConnections[server], mType, ...)
 	else
@@ -82,9 +60,32 @@ local function gatherResponse(server)
 	end
 end
 
+---------------------------------------------
+-- functions
+---------------------------------------------
+function connect(server)
+	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
+	sleep(slp)
+	if not serverConnections[server] then
+		debug.log(20, "Attempting to connect to ", server, " on port ", port)
+		-- attempt to connect
+		local myConn, response = connection.open(server, port, timeout)
+		if not myConn then
+			debug.log(1, "--Connection to ", server, " Failed!")
+			serverConnections[server], response = false, false
+			return false
+		else
+			debug.log(20, "--Connected to ", server, " Response: ", response)
+			serverConnections[server] = myConn
+			return true
+		end
+	else
+		debug.log(10, "Server already connected!")
+		return true
+	end
+end
 
-
-local function closeConnection(server)
+function disconnect(server)
 	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	if connection.close(serverConnections[server]) then
 		safeSend(server, "close", "close")
@@ -97,14 +98,10 @@ local function closeConnection(server)
 	end
 end
 
----------------------------------------------
--- functions
----------------------------------------------
-
 function closeAllConnections()
 	debug.log(20, "Closing all connections.")
 	for k,v in pairs(serverConnections) do
-		closeConnection(k)
+		disconnect(k)
 	end
 end
 

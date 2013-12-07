@@ -19,9 +19,7 @@
 local server = "cowsensor2"
 local side = "top"
 local redSide = "left"
-local cowSensor = nperi.wrap(server, side)
 local mon = peripheral.wrap("monitor_7")
-
 local cows = {}
 local switches = {}
 switches.spawner = colors.orange
@@ -32,6 +30,17 @@ switches.grinder = colors.lime
 switches.slaughter = colors.pink
 
 
+-- wrap network sensor
+while not nperi.connect(server) then
+	debug.log(1, "Unable to connect to ", server, ".")
+	sleep(1)
+end
+
+local cowSensor = nperi.wrap(server, side)
+
+
+-------------------------------------------------
+-- local functions
 local function updateCows()
 	debug.log(30, "Updating cows...")
 	local tResults = cowSensor.getTargets()
@@ -79,7 +88,7 @@ local function setSetting(color, setting)
 	end
 end
 
-------------------------------------------
+-------------------------------------------------
 -- Main
 
 -- Default switch settings:
@@ -89,11 +98,11 @@ end
 
 -- 29, 12
 mon.clear()
-mon.setCursorPos(1,1)
+mon.setCursorPos(1, 1)
 txt.centerWrite(mon, "Cow Breeder Control")
-mon.setCursorPos(1,2)
+mon.setCursorPos(1, 2)
 mon.write("--Data-----------------------")
-mon.setCursorPos(1,4)
+mon.setCursorPos(1, 6)
 mon.write("--Settings-------------------")
 
 while true do
@@ -139,24 +148,30 @@ while true do
 	-- update screen
 	mon.setCursorPos(5,3)
 	mon.clearLine()
-	mon.write("Cows:      " .. tostring(cowCount))
+	mon.write("Cows:      " .. tostring(total))
+	mon.setCursorPos(5,4)
+	mon.clearLine()
+	mon.write("Adults:    " .. tostring(adults))
+	mon.setCursorPos(5,5)
+	mon.clearLine()
+	mon.write("Children:  " .. tostring(children))
 
-	mon.setCursorPos(5, 5)
-	mon.clearLine()
-	mon.write("Spawner:   " .. tostring(getSetting(switches.spawner)))
-	mon.setCursorPos(5, 6)
-	mon.clearLine()
-	mon.write("Breeder:   " .. tostring(getSetting(switches.breeder)))
 	mon.setCursorPos(5, 7)
 	mon.clearLine()
-	mon.write("Vet:       " .. tostring(getSetting(switches.vet)))
+	mon.write("Spawner:   " .. tostring(getSetting(switches.spawner)))
 	mon.setCursorPos(5, 8)
 	mon.clearLine()
-	mon.write("Rancher:   " .. tostring(getSetting(switches.rancher)))
+	mon.write("Breeder:   " .. tostring(getSetting(switches.breeder)))
 	mon.setCursorPos(5, 9)
 	mon.clearLine()
-	mon.write("Grinder:   " .. tostring(getSetting(switches.grinder)))
+	mon.write("Vet:       " .. tostring(getSetting(switches.vet)))
 	mon.setCursorPos(5, 10)
+	mon.clearLine()
+	mon.write("Rancher:   " .. tostring(getSetting(switches.rancher)))
+	mon.setCursorPos(5, 11)
+	mon.clearLine()
+	mon.write("Grinder:   " .. tostring(getSetting(switches.grinder)))
+	mon.setCursorPos(5, 12)
 	mon.clearLine()
 	mon.write("Slaughter: " .. tostring(getSetting(switches.slaughter)))
 	
