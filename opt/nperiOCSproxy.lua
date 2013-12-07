@@ -1,5 +1,8 @@
 --shell.run("opt/nperiOCSproxy", conn, tMessage[2], tMessage[3], unpack(tArgs))
 debug.log(30, "nperiOCSproxy called: ", ...)
+debug.log(40, "sleep() called: ")
+sleep(0)
+debug.log(40, "after sleep()")
 
 local args = {...}
 local conn = args[1]
@@ -18,3 +21,4 @@ if nperi.connections[conn] then
 else
 	debug.log(1, "No connection to send!")
 end
+
