@@ -23,6 +23,7 @@ end
 ---------------------------------------------------
 -- main
 while true do
+	sleep(0.001)
 	local conn, messType, tMessage = nets.listen(port)
 	debug.log(30, "Received message: ", conn," messType: ", messType, " others: ", unpack(tMessage))
 	if connections[conn] and connections[conn].status == "open" then
