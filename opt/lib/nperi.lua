@@ -9,9 +9,8 @@ local timeout = 5
 local response = false
 local slp = 0.0001
 local maxRetrys = 3
-local serverConnections = {}
 
-
+serverConnections = {}
 
 ---------------------------------------------
 -- local functions
@@ -19,6 +18,8 @@ local serverConnections = {}
 local function safeSend(server, mType, ...)
 	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	assert (type(mType) == "string" and string.len(mType) > 0, "invalid message type")
+	
+	sleep(slp)
 	
 	if serverConnections[server] then
 		debug.log(50, "sending server message: conn:", serverConnections[server], " mType: ", mType, "others: ", ...)
@@ -66,8 +67,8 @@ end
 -- functions
 ---------------------------------------------
 function connect(server)
-	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	sleep(slp)
+	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	if not serverConnections[server] then
 		debug.log(20, "Attempting to connect to ", server, " on port ", port)
 		-- attempt to connect
@@ -91,7 +92,7 @@ function disconnect(server)
 	assert (type(server) == "string" and string.len(server) > 0, "invalid server")
 	if connection.close(serverConnections[server]) then
 		safeSend(server, "close", "close")
-		serverConnection = false
+		serverConnections[server] = false
 		debug.log(20, "--Connection Closed server: ", server)
 		return true
 	else
