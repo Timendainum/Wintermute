@@ -1,6 +1,6 @@
 -- debug api
 --------------------------------------------
-local debugSeverity = 20
+local debugSeverity = 64
 -- 0 	completely silent
 -- 1 	Error
 -- 10	Warning -- default

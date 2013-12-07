@@ -9,9 +9,9 @@ local timeout = 5
 local response = false
 local slp = 0.0001
 local maxRetrys = 3
+local serverConnections = {}
 
--- global
-serverConnections = {}
+
 
 ---------------------------------------------
 -- local functions
