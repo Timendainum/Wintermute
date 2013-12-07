@@ -24,7 +24,7 @@ function nPeriDaemon ()
 
 	while true do
 		local conn, messType, tMessage = nets.listenIdle(port)
-		debug.log(30, "Recieved wakeup conn: ", conn," messType: ", messType, " others: ", unpack(tMessage))
+		debug.log(30, "Received message: ", conn," messType: ", messType, " others: ", unpack(tMessage))
 		if connections[conn] and connections[conn].status == "open" then
 			debug.log(50, "Connection is open, processing message.")
 			if messType == "close" then
@@ -61,12 +61,10 @@ function nPeriDaemon ()
 						if tMessage[2] and tMessage[3] then
 							debug.log(50, "side: ", tMessage[2], " function: " ,tMessage[3])
 							local tArgs = { }
-							--local bArgs = false
 							for k,v in ipairs(tMessage) do
 								if k > 3 then
 									table.insert(tArgs, v)
 									debug.log(60, "Adding additional argument.")
-									--bArgs = true
 								end
 							end
 							
@@ -75,7 +73,7 @@ function nPeriDaemon ()
     							--this is not going to work because it has an event it
     							--local tResult = {sensor.call(tMessage[2], tMessage[3], unpack(tArgs))}
     							debug.log(40, "Running external proxy to handle result...")
-    							shell.run("opt/nperiOCSproxy", conn, tMessage[2], tMessage[3], tArgs)
+    							os.run({}, "opt/nperiOCSproxy", conn, tMessage[2], tMessage[3], tArgs)
     							--shell.run(
     							--debug.log(40, "Sending result..")
    								--safeSend(conn, "data", unpack(tResult))
@@ -83,25 +81,6 @@ function nPeriDaemon ()
     							debug.log(40, "Processing peripheral call..")
    								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
     						end
-    						
-    						--[[
-    						if peripheral.getType(tMessage[2]) == "sensor" then
-    							
-    							if bArgs then
-    								safeSend(conn, "data", sensor.call(tMessage[2], tMessage[3], unpack(tArgs)))
-    							else
-    								safeSend(conn, "data", sensor.call(tMessage[2], tMessage[3]))
-    							end
-    						else
-    							debug.log(40, "Processing peripheral call..")
-    							if bArgs then
-    								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3], unpack(tArgs)))
-    							else
-    								safeSend(conn, "data", peripheral.call(tMessage[2], tMessage[3]))
-    							end
-    						end
-    						]]--
-    						
 						else
 							debug.log(40, "invalid arguments")
 							safeSend(conn, "response", "Invalid arguments.")
