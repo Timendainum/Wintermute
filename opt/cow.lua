@@ -38,7 +38,7 @@ local function updateCows()
 	if tResults ~= nil then
 		cows = {}
 		for k,v in pairs(tResults) do
-			if type(k) == "string" and string.len(k) > 3 and string.sub(k, 1, 3) == "Cow" then
+			if v.Name == "Cow" then
 				cows[k] = v
 			end
 		end
@@ -47,16 +47,24 @@ local function updateCows()
 	end
 end
 
+-- returns total, adults, children
 local function countCows()
-	if cows == nil then
-		return 0
-	else
+	local total, adults, children = 0, 0, 0
+	if cows ~= nil then
 		local result = 0
 		for k,v in pairs(cows) do
-			result = result + 1
+			total = total + 1
+			local details = cowSensor.getTargetDetails(k)
+			if details ~= nil then
+				if details.IsChild then
+					children = children + 1
+				else
+					adults = adults + 1
+				end
+			end
 		end
-		return result 
 	end
+	return total, adults, children
 end
 
 local function getSetting(color)
@@ -90,18 +98,28 @@ mon.write("--Settings-------------------")
 
 while true do
 	updateCows()
-	local cowCount = tonumber(countCows())
-	debug.log(20, "There are ", cowCount, " cows in the farm.")
+	local total, adults, children = countCows()
+	
+	debug.log(20, "There are ", tostring(total), " cows in the farm, " .. adults .. " are adults and " .. children .. " are children.")
 	
 	--logic
-	if cowCount >= 100 then
-		setSetting(switches.spawner, false)
-		setSetting(switches.breeder, false)
-		setSetting(switches.vet, false)
-		setSetting(switches.rancher, true)
-		setSetting(switches.grinder, true)
-		setSetting(switches.slaughter, true)
-	elseif cowCount >= 10 then
+	if total >= 100 then
+		if adults > 50 then
+			setSetting(switches.spawner, false)
+			setSetting(switches.breeder, false)
+			setSetting(switches.vet, false)
+			setSetting(switches.rancher, true)
+			setSetting(switches.grinder, true)
+			setSetting(switches.slaughter, true)	
+		else
+			setSetting(switches.spawner, false)
+			setSetting(switches.breeder, false)
+			setSetting(switches.vet, false)
+			setSetting(switches.rancher, true)
+			setSetting(switches.grinder, false)
+			setSetting(switches.slaughter, false)	
+		end
+	elseif total >= 10 then
 		setSetting(switches.spawner, false)
 		setSetting(switches.breeder, true)
 		setSetting(switches.vet, false)
