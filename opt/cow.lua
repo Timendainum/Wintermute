@@ -118,7 +118,7 @@ while true do
 		setSetting(switches.spawner, false)
 	end
 	
-	if children < 50 and total < 100 then
+	if children < 20 and total < 50 then
 		setSetting(switches.breeder, true)
 	else
 		setSetting(switches.breeder, false)
@@ -127,7 +127,7 @@ while true do
 	setSetting(switches.rancher, true)
 	setSetting(switches.vet, false)
 	
-	if adults >= 60 then
+	if adults >= 30 then
 		setSetting(switches.grinder, true)
 		setSetting(switches.slaughter, true)	
 	else
