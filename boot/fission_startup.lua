@@ -15,6 +15,8 @@ local fuel = colors.magenta
 -- declarations
 local mon = nil
 
+local server = "powerperi"
+
 -- cells indexed by cellId as number
 local cells = {}
 -- indexed by cellId, value as number
@@ -157,13 +159,20 @@ mon.setCursorPos(1,8)
 mon.clearLine()
 mon.write("---------------------------------------")
 
+
+-- connect to server
+while not nperi.connect(server) do
+	debug.log(1, "Unable to connect to ", server, ".")
+	sleep(1)
+end
+
 -- build main energy cell table
 print("Wrapping networked peripherals")
 for x = 1, 50 do
 	local name = "redstone_energy_cell_" .. tostring(x)
 	
 	while cells[x] == nil do
-		cells[x] = nperi.wrap("powerperi", name)
+		cells[x] = nperi.wrap(server, name)
 		if cells[x] == nil then
 			print(name .. " is nil! <CR> to try again!")
 			local junk = read()

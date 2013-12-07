@@ -30,7 +30,7 @@ switches.grinder = colors.lime
 switches.slaughter = colors.pink
 
 
--- wrap network sensor
+-- connect to server
 while not nperi.connect(server) do
 	debug.log(1, "Unable to connect to ", server, ".")
 	sleep(1)
@@ -112,36 +112,27 @@ while true do
 	debug.log(20, "There are ", tostring(total), " cows in the farm, " .. adults .. " are adults and " .. children .. " are children.")
 	
 	--logic
-	if total >= 100 then
-		if adults > 50 then
-			setSetting(switches.spawner, false)
-			setSetting(switches.breeder, false)
-			setSetting(switches.vet, false)
-			setSetting(switches.rancher, true)
-			setSetting(switches.grinder, true)
-			setSetting(switches.slaughter, true)	
-		else
-			setSetting(switches.spawner, false)
-			setSetting(switches.breeder, false)
-			setSetting(switches.vet, false)
-			setSetting(switches.rancher, true)
-			setSetting(switches.grinder, false)
-			setSetting(switches.slaughter, false)	
-		end
-	elseif total >= 10 then
-		setSetting(switches.spawner, false)
-		setSetting(switches.breeder, true)
-		setSetting(switches.vet, false)
-		setSetting(switches.rancher, false)
-		setSetting(switches.grinder, false)
-		setSetting(switches.slaughter, false)
-	else
+	if total < 5 then
 		setSetting(switches.spawner, true)
+	else
+		setSetting(switches.spawner, false)
+	end
+	
+	if children < 50 and total < 100 then
 		setSetting(switches.breeder, true)
-		setSetting(switches.vet, true)
-		setSetting(switches.rancher, false)
+	else
+		setSetting(switches.breeder, false)
+	end
+	
+	setSetting(switches.rancher, true)
+	setSetting(switches.vet, false)
+	
+	if adults >= 60 then
+		setSetting(switches.grinder, true)
+		setSetting(switches.slaughter, true)	
+	else
 		setSetting(switches.grinder, false)
-		setSetting(switches.slaughter, false)
+		setSetting(switches.slaughter, false)	
 	end
 		
 	
