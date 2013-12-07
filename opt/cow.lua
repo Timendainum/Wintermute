@@ -93,6 +93,32 @@ while true do
 	local cowCount = tonumber(countCows())
 	debug.log(20, "There are ", cowCount, " cows in the farm.")
 	
+	--logic
+	if cowCount >= 100 then
+		setSetting(switches.spawner, false)
+		setSetting(switches.breeder, false)
+		setSetting(switches.vet, false)
+		setSetting(switches.rancher, true)
+		setSetting(switches.grinder, true)
+		setSetting(switches.slaughter, true)
+	elseif cowCount >= 10 then
+		setSetting(switches.spawner, false)
+		setSetting(switches.breeder, true)
+		setSetting(switches.vet, false)
+		setSetting(switches.rancher, false)
+		setSetting(switches.grinder, false)
+		setSetting(switches.slaughter, false)
+	else
+		setSetting(switches.spawner, true)
+		setSetting(switches.breeder, true)
+		setSetting(switches.vet, true)
+		setSetting(switches.rancher, false)
+		setSetting(switches.grinder, false)
+		setSetting(switches.slaughter, false)
+	end
+		
+	
+	-- update screen
 	mon.setCursorPos(5,3)
 	mon.clearLine()
 	mon.write("Cows:      " .. tostring(cowCount))
