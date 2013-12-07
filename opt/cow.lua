@@ -95,25 +95,26 @@ while true do
 	
 	mon.setCursorPos(3,3)
 	mon.clearLine()
-	mon.write("Cows: ", .. tostring(cowCount))
+	mon.write("Cows: " .. tostring(cowCount))
 
-	mon.setCursorPos(3, 5)
+	mon.setCursorPos(5, 5)
 	mon.clearLine()
 	mon.write("Spawner: " .. tostring(getSetting(switches.spawner)))
-	mon.setCursorPos(18, 5)
-	mon.write("Rancher: " .. tostring(getSetting(switches.rancher)))
-	
-	mon.setCursorPos(3, 6)
+	mon.setCursorPos(5, 6)
 	mon.clearLine()
 	mon.write("Breeder: " .. tostring(getSetting(switches.breeder)))
-	mon.setCursorPos(18, 6)
-	mon.write("Grinder: " .. tostring(getSetting(switches.grinder)))
-
-	mon.setCursorPos(3, 7)
+	mon.setCursorPos(5, 7)
 	mon.clearLine()
 	mon.write("Vet: " .. tostring(getSetting(switches.vet)))
-	mon.setCursorPos(18, 7)
+	mon.setCursorPos(5, 8)
+	mon.clearLine()
+	mon.write("Rancher: " .. tostring(getSetting(switches.rancher)))
+	mon.setCursorPos(5, 9)
+	mon.clearLine()
+	mon.write("Grinder: " .. tostring(getSetting(switches.grinder)))
+	mon.setCursorPos(5, 10)
+	mon.clearLine()
 	mon.write("Slaughter: " .. tostring(getSetting(switches.slaughter)))
 	
-	sleep(5)
+	sleep(1)
 end
