@@ -1,7 +1,7 @@
 --shell.run("opt/nperiOCSproxy", conn, tMessage[2], tMessage[3], unpack(tArgs))
 debug.log(30, "nperiOCSproxy called: ", ...)
-debug.log(40, "sleep() called: ")
-sleep(0)
+debug.log(40, "sleep() called")
+sleep(1)
 debug.log(40, "after sleep()")
 
 local args = {...}
