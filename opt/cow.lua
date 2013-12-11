@@ -64,7 +64,7 @@ local function countCows()
 		for k,v in pairs(cows) do
 			total = total + 1
 			local details = cowSensor.getTargetDetails(k)
-			if details ~= nil then
+			if details ~= nil and details then
 				if details.IsChild ~= nil and details.IsChild then
 					children = children + 1
 				else
