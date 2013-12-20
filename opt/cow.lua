@@ -44,7 +44,7 @@ local cowSensor = nperi.wrap(server, side)
 local function updateCows()
 	debug.log(30, "Updating cows...")
 	local tResults = cowSensor.getTargets()
-	if tResults ~= nil then
+	if tResults ~= nil and type(tResults) == "table" then
 		cows = {}
 		for k,v in pairs(tResults) do
 			if v.Name == "Cow" then
@@ -52,7 +52,7 @@ local function updateCows()
 			end
 		end
 	else
-		debug.log(1, "Unable to update cows, sensor result nil.")
+		debug.log(1, "Unable to update cows, sensor result invalid.")
 	end
 end
 
